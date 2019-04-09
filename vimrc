@@ -218,7 +218,7 @@ function! s:configure_lsp() abort
   nnoremap <buffer> gD :<C-u>LspReferences<CR>
   nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
   nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
-  nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
+  nnoremap <buffer> gq :<C-u>LspDocumentFormat<CR>
   vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
   nnoremap <buffer> K :<C-u>LspHover<CR>
   nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
