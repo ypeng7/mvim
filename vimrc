@@ -326,7 +326,7 @@ call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_
     \ }))
 
 if has('python3')
-    let g:UltiSnipsExpandTrigger="<C-e>"
+    let g:UltiSnipsExpandTrigger="<C-n>"
     call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
         \ 'name': 'ultisnips',
         \ 'whitelist': ['*'],
