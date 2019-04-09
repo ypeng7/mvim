@@ -70,7 +70,9 @@ syntax enable
 " ===============================
 set autowrite
 set autochdir
-set backup
+set nobackup
+set noswapfile
+set nowritebackup
 set colorcolumn=80
 set nocursorline
 set encoding=utf-8
