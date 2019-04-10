@@ -127,7 +127,7 @@ autocmd FileType * nmap <F2> <plug>(lsp-rename)
 
 
 nmap <leader>gy :Goyo<CR>
-nmap <leader>ngy :Goyo!<CR>
+nmap ngy :Goyo!<CR>
 
 
 
@@ -328,7 +328,7 @@ call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_
     \ }))
 
 if has('python3')
-    let g:UltiSnipsExpandTrigger="<C-n>"
+    let g:UltiSnipsExpandTrigger="<C-e>"
     call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
         \ 'name': 'ultisnips',
         \ 'whitelist': ['*'],
