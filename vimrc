@@ -14,6 +14,7 @@ if dein#load_state('~/.cache/dein')
 
   " Asynchronous Lint Engine
   call dein#add('w0rp/ale')
+  call dein#add('scrooloose/nerdtree')
 
   call dein#add('Yggdroot/LeaderF', {'do': './install.sh'})
 
@@ -356,3 +357,8 @@ let g:echodoc#type = 'signature'
 
 " neoformat
 let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
+
+" NerdTree
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+map <leader>n :NERDTreeToggle<CR>
