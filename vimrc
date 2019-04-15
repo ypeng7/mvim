@@ -90,6 +90,7 @@ set completeopt+=menuone
 set completeopt+=longest
 set noshowmode
 set cmdheight=2
+set clipboard=unnamed,unnamedplus
 
 set hlsearch
 set ignorecase
