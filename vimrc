@@ -50,6 +50,7 @@ if dein#load_state('~/.cache/dein')
   call dein#add('tpope/vim-fugitive')
   call dein#add('scrooloose/nerdcommenter')
   call dein#add('tpope/vim-surround')
+  call dein#add('heavenshell/vim-pydocstring')
 
 
   call dein#add('itchyny/lightline.vim')
@@ -363,3 +364,6 @@ let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 map <leader>n :NERDTreeToggle<CR>
+
+" Python Docstring
+nmap <silent> <C-d> <Plug>(pydocstring)
