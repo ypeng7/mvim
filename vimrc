@@ -89,9 +89,12 @@ set autoindent
 set completeopt+=preview
 set completeopt+=menuone
 set completeopt+=longest
+set previewheight=5
 set noshowmode
 set cmdheight=2
-set clipboard=unnamed,unnamedplus
+set clipboard=unnamed
+set mouse=a
+set mousehide
 
 set hlsearch
 set ignorecase
@@ -123,10 +126,10 @@ nmap <leader>bp :bprevious<CR>
 nmap <leader>bf :bfirst<CR>
 nmap <leader>bd :bdelete<CR>
 
-autocmd FileType * nmap gd <plug>(lsp-definition)
-autocmd FileType * nmap gD <plug>(lsp-references)
-autocmd FileType * nmap K <plug>(lsp-hover)
-autocmd FileType * nmap <F2> <plug>(lsp-rename)
+" autocmd FileType * nmap gd <plug>(lsp-definition)
+" autocmd FileType * nmap gD <plug>(lsp-references)
+" autocmd FileType * nmap K <plug>(lsp-hover)
+" autocmd FileType * nmap <F2> <plug>(lsp-rename)
 
 
 nmap <leader>gy :Goyo<CR>
@@ -246,6 +249,7 @@ if executable('gopls')
         \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
         \ 'whitelist': ['go'],
         \ })
+    autocmd FileType go call s:configure_lsp()
 endif
 
 if executable('typescript-language-server')
@@ -255,6 +259,7 @@ if executable('typescript-language-server')
         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
         \ 'whitelist': ['typescript', 'typescript.tsx'],
         \ })
+    autocmd FileType typescript call s:configure_lsp()
 endif
 
 if executable('docker-langserver')
