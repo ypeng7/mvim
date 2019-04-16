@@ -3,65 +3,58 @@
 if &compatible
   set nocompatible
 endif
-" Add the dein installation directory into runtimepath
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
-
-  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
-
-
+call plug#begin('~/vim/plugged')
   " Asynchronous Lint Engine
-  call dein#add('w0rp/ale')
-  call dein#add('scrooloose/nerdtree')
+  Plug 'w0rp/ale'
+  Plug 'scrooloose/nerdtree'
 
-  call dein#add('Yggdroot/LeaderF', {'do': './install.sh'})
+  Plug 'Yggdroot/LeaderF', {'branch': 'master', 'do': './install.sh'}
+  Plug 'Yggdroot/LeaderF-marks', {'branch': 'master'}
 
-  call dein#add('prabirshrestha/asyncomplete.vim')
-  call dein#add('prabirshrestha/async.vim')
-  call dein#add('prabirshrestha/vim-lsp')
-  call dein#add('prabirshrestha/asyncomplete-lsp.vim')
-  call dein#add('prabirshrestha/asyncomplete-buffer.vim')
-  call dein#add('prabirshrestha/asyncomplete-file.vim')
-  call dein#add('prabirshrestha/asyncomplete-gocode.vim')
-  call dein#add('yami-beta/asyncomplete-omni.vim')
-  call dein#add('runoshun/tscompletejob')
-  call dein#add('prabirshrestha/asyncomplete-tscompletejob.vim')
-  call dein#add('SirVer/ultisnips')
-  call dein#add('honza/vim-snippets')
-  call dein#add('prabirshrestha/asyncomplete-ultisnips.vim')
-  call dein#add('Shougo/neco-vim')
-  call dein#add('prabirshrestha/asyncomplete-necovim.vim')
-  call dein#add('Shougo/neco-syntax')
-  call dein#add('prabirshrestha/asyncomplete-necosyntax.vim')
-
-
-  call dein#add('jiangmiao/auto-pairs')
-  call dein#add('machakann/vim-highlightedyank')
-  call dein#add('terryma/vim-multiple-cursors')
-  call dein#add('sbdchd/neoformat')
+  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'prabirshrestha/async.vim'
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'prabirshrestha/asyncomplete-file.vim'
+  Plug 'prabirshrestha/asyncomplete-gocode.vim'
+  Plug 'yami-beta/asyncomplete-omni.vim'
+  Plug 'runoshun/tscompletejob'
+  Plug 'prabirshrestha/asyncomplete-tscompletejob.vim'
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
+  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+  Plug 'Shougo/neco-vim'
+  Plug 'prabirshrestha/asyncomplete-necovim.vim'
+  Plug 'Shougo/neco-syntax'
+  Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
 
 
-  call dein#add('Shougo/echodoc.vim')
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'machakann/vim-highlightedyank'
+  Plug 'terryma/vim-multiple-cursors'
+  Plug 'sbdchd/neoformat'
 
 
-  call dein#add('sheerun/vim-polyglot')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('scrooloose/nerdcommenter')
-  call dein#add('tpope/vim-surround')
-  call dein#add('heavenshell/vim-pydocstring')
+  Plug 'Shougo/echodoc.vim'
 
 
-  call dein#add('itchyny/lightline.vim')
-  call dein#add('morhetz/gruvbox')
-  call dein#add('junegunn/seoul256.vim')
-  call dein#add('junegunn/goyo.vim')
-  call dein#add('junegunn/limelight.vim')
+  Plug 'sheerun/vim-polyglot'
+  Plug 'tpope/vim-fugitive'
+  Plug 'scrooloose/nerdcommenter'
+  Plug 'tpope/vim-surround'
+  Plug 'heavenshell/vim-pydocstring'
 
-  call dein#end()
-  call dein#save_state()
-endif
+
+  Plug 'itchyny/lightline.vim'
+  Plug 'morhetz/gruvbox'
+  Plug 'junegunn/seoul256.vim'
+  Plug 'junegunn/goyo.vim'
+  Plug 'junegunn/limelight.vim'
+
+call plug#end()
+
 
 filetype plugin indent on
 syntax enable
