@@ -4,7 +4,7 @@ if &compatible
   set nocompatible
 endif
 
-call plug#begin('~/vim/plugged')
+call plug#begin('~/.vim/plugged')
   " Asynchronous Lint Engine
   Plug 'w0rp/ale'
   Plug 'scrooloose/nerdtree'
