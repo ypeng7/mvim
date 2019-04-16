@@ -8,6 +8,8 @@ call plug#begin('~/.vim/plugged')
   " Asynchronous Lint Engine
   Plug 'w0rp/ale'
   Plug 'scrooloose/nerdtree'
+  Plug 'jistr/vim-nerdtree-tabs'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
 
   Plug 'Yggdroot/LeaderF', {'branch': 'master', 'do': './install.sh'}
   Plug 'Yggdroot/LeaderF-marks', {'branch': 'master'}
@@ -50,6 +52,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'itchyny/lightline.vim'
   Plug 'morhetz/gruvbox'
   Plug 'junegunn/seoul256.vim'
+  Plug 'nightsense/cosmic_latte'
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
 
@@ -63,6 +66,8 @@ syntax enable
 " ================================
 "    Global configuration
 " ===============================
+set termguicolors
+
 set autowrite
 set autochdir
 set nobackup
@@ -129,10 +134,6 @@ nmap <leader>gy :Goyo<CR>
 nmap ngy :Goyo!<CR>
 
 
-
-"for python
-au BufRead,BufNewFile *.py set shiftwidth=4 tabstop=4 softtabstop=4 expandtab smarttab autoindent
-
 " ================================
 "    Plugins configuration
 " ===============================
@@ -179,23 +180,35 @@ let g:NERDSpaceDelims = 1
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
 
+let g:NERDDefaultAlign = 'left'
+let g:NERDCustomDelimiters = {
+          \ 'javascript': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
+          \ 'less': { 'left': '/*', 'right': '*/' }
+      \ }
+
+let g:NERDAltDelims_javascript = 1
+let g:NERDDefaultNesting = 1
+
 " Color theme
 set t_Co=256
 " let g:gruvbox_italic = '1'
 " colorscheme gruvbox
 
 " Unified color scheme (default: dark)
-colo seoul256
+" colo seoul256
 
 " Light color scheme
 " colo seoul256-light
 
+colorscheme cosmic_latte
 " Switch
-set background=dark
-" set background=light
-let g:lightline = {
-      \ 'colorscheme': 'seoul256',
-      \ }
+if strftime('%H') >= 7 && strftime('%H') < 19
+  set background=light
+  let g:lightline = { 'colorscheme': 'cosmic_latte_light' }
+else
+  set background=dark
+  let g:lightline = { 'colorscheme': 'cosmic_latte_dark' }
+endif
 
 
 " VIM-LSP
@@ -213,7 +226,7 @@ if executable('pyls')
 endif
 
 function! s:configure_lsp() abort
-  setlocal omnifunc=lsp#complete   
+  setlocal omnifunc=lsp#complete
   nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
   nnoremap <buffer> gd :<C-u>LspDefinition<CR>
   nnoremap <buffer> gD :<C-u>LspReferences<CR>
@@ -359,9 +372,30 @@ let g:echodoc#type = 'signature'
 let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
 
 " NerdTree
+" autocmd vimenter * NERDTree
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 map <leader>n :NERDTreeToggle<CR>
+
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeMinimalUI = 1
+let NERDTreeShowHidden = 1
+
+" let g:nerdtree_tabs_open_on_console_startup = 1
+let g:nerdtree_tabs_focus_on_files = 1
+
+let g:NERDTreeIndicatorMapCustom = {
+  \ "Modified"  : "✹",
+  \ "Staged"    : "✚",
+  \ "Untracked" : "✭",
+  \ "Renamed"   : "➜",
+  \ "Unmerged"  : "═",
+  \ "Deleted"   : "✖",
+  \ "Dirty"     : "✗",
+  \ "Clean"     : "✔︎",
+  \ 'Ignored'   : '☒',
+  \ "Unknown"   : "?"
+  \ }
 
 " Python Docstring
 nmap <silent> <C-d> <Plug>(pydocstring)
