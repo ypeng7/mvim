@@ -90,7 +90,7 @@ set completeopt+=longest
 set previewheight=5
 set noshowmode
 set cmdheight=2
-set clipboard=unnamed
+set clipboard=unnamed,unnamedplus
 set mouse=a
 set mousehide
 
