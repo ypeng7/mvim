@@ -14,23 +14,25 @@ call plug#begin('~/.vim/plugged')
   Plug 'Yggdroot/LeaderF', {'branch': 'master', 'do': './install.sh'}
   Plug 'Yggdroot/LeaderF-marks', {'branch': 'master'}
 
-  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
-  Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  Plug 'prabirshrestha/asyncomplete-buffer.vim'
-  Plug 'prabirshrestha/asyncomplete-file.vim'
-  Plug 'prabirshrestha/asyncomplete-gocode.vim'
-  Plug 'yami-beta/asyncomplete-omni.vim'
-  Plug 'runoshun/tscompletejob'
-  Plug 'prabirshrestha/asyncomplete-tscompletejob.vim'
+  Plug 'lighttiger2505/deoplete-vim-lsp'
+  Plug 'Shougo/neco-vim', { 'for': 'vim' }
+  Plug 'deoplete-plugins/deoplete-jedi', { 'for': 'python' }
+  Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+  Plug 'Quramy/tsuquyomi', {'for': 'typescript' }
+  Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
+  Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+  Plug 'Shougo/neco-syntax'
+
+
+
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
-  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-  Plug 'Shougo/neco-vim'
-  Plug 'prabirshrestha/asyncomplete-necovim.vim'
-  Plug 'Shougo/neco-syntax'
-  Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
 
 
   Plug 'jiangmiao/auto-pairs'
@@ -87,6 +89,8 @@ set autoindent
 set completeopt+=preview
 set completeopt+=menuone
 set completeopt+=longest
+set completeopt+=noinsert
+set completeopt+=noselect
 set previewheight=5
 set noshowmode
 set cmdheight=2
@@ -225,21 +229,38 @@ if executable('pyls')
     autocmd FileType python call s:configure_lsp()
 endif
 
+" function! s:configure_lsp() abort
+"   setlocal omnifunc=lsp#complete
+"   nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
+"   nnoremap <buffer> gd :<C-u>LspDefinition<CR>
+"   nnoremap <buffer> gD :<C-u>LspReferences<CR>
+"   nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
+"   nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
+"   nnoremap <buffer> gq :<C-u>LspDocumentFormat<CR>
+"   vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
+"   nnoremap <buffer> K :<C-u>LspHover<CR>
+"   nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
+"   nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+" endfunction
+
 function! s:configure_lsp() abort
-  setlocal omnifunc=lsp#complete
-  nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
-  nnoremap <buffer> gd :<C-u>LspDefinition<CR>
-  nnoremap <buffer> gD :<C-u>LspReferences<CR>
-  nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
-  nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
-  nnoremap <buffer> gq :<C-u>LspDocumentFormat<CR>
-  vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
-  nnoremap <buffer> K :<C-u>LspHover<CR>
-  nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
-  nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+    setlocal omnifunc=lsp#complete
+    nnoremap <buffer> gd :<C-u>LspDefinition<CR>
+    nnoremap <buffer> gh :<C-u>LspHover<CR>
+    nnoremap <buffer> gt :<C-u>LspTypeDefinition<CR>
+    nnoremap <buffer> gr :<C-u>LspReferences<CR>
+    nnoremap <buffer> grn :<C-u>LspRename<CR>
+
+    nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
+    nnoremap <buffer> gws :<C-u>LspWorkspaceSymbol<CR>
+
+    nnoremap <buffer> gf :<C-u>LspDocumentFormat<CR>
+    vnoremap <buffer> grf :LspDocumentRangeFormat<CR>
+    nnoremap <buffer> gi :<C-u>LspImplementation<CR>
 endfunction
 
-let g:lsp_diagnostics_enabled = 0
+
+let g:lsp_diagnostics_enabled = 1
 
 " if executable('dotnet')
     " au User lsp_setup call lsp#register_server({
@@ -292,75 +313,59 @@ if executable('clangd')
 endif
 
 
-let g:asyncomplete_auto_popup = 1
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
 " Tab navigation in the popupmenu
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
-" refresh the completion list
-imap <C-space> <Plug>(asyncomplete_force_refresh)
+" Deoplete
+" deoplete + neosnippet + autopairs changes
+let g:AutoPairsMapCR=0
+let g:deoplete#auto_complete_start_length = 1
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+imap <expr><TAB> pumvisible() ? "\<C-n>" : (neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>")
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+imap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>\<Plug>AutoPairsReturn"
 
 
-call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \ 'name': 'buffer',
-    \ 'whitelist': ['*'],
-    \ 'blacklist': ['go'],
-    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    \ }))
-
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'whitelist': ['*'],
-    \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
-
-call asyncomplete#register_source(asyncomplete#sources#gocode#get_source_options({
-    \ 'name': 'gocode',
-    \ 'whitelist': ['go'],
-    \ 'completor': function('asyncomplete#sources#gocode#completor'),
-    \ 'config': {
-    \    'gocode_path': expand('~/go/bin/gocode')
-    \  },
-    \ }))
+let g:deoplete#enable_at_startup = 1
 
 
-call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-\ 'name': 'omni',
-\ 'whitelist': ['*'],
-\ 'blacklist': ['c', 'cpp', 'html'],
-\ 'completor': function('asyncomplete#sources#omni#completor')
-\  }))
+" deoplete-go
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 
-call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_options({
-    \ 'name': 'tscompletejob',
-    \ 'whitelist': ['typescript'],
-    \ 'completor': function('asyncomplete#sources#tscompletejob#completor'),
-    \ }))
+" deoplete-jedi
+let g:deoplete#sources#jedi#show_docstring = 1
 
-if has('python3')
-    let g:UltiSnipsExpandTrigger="<C-e>"
-    call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-        \ 'name': 'ultisnips',
-        \ 'whitelist': ['*'],
-        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-        \ }))
+
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
 endif
 
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-    \ 'name': 'necovim',
-    \ 'whitelist': ['vim'],
-    \ 'completor': function('asyncomplete#sources#necovim#completor'),
-    \ }))
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
 
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
-    \ 'name': 'necosyntax',
-    \ 'whitelist': ['*'],
-    \ 'completor': function('asyncomplete#sources#necosyntax#completor'),
-    \ }))
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
+
 
 
 " echodoc
