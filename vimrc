@@ -337,7 +337,25 @@ let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 
 " deoplete-jedi
+let g:deoplete#sources#jedi#statement_length = 30
+let g:deoplete#sources#jedi#short_types = 1
 let g:deoplete#sources#jedi#show_docstring = 1
+
+call deoplete#custom#option({
+	\ 'auto_refresh_delay': 10,
+	\ 'camel_case': v:true,
+	\ 'skip_multibyte': v:true,
+	\ 'prev_completion_mode': 'filter',
+	\ 'min_pattern_length': 1,
+	\ 'max_list': 10000,
+	\ 'skip_chars': ['(', ')', '<', '>'],
+	\ })
+
+let g:deoplete#omni_patterns = get(g:, 'deoplete#omni_patterns', {})
+call deoplete#custom#option('omni_patterns', {
+\ 'complete_method': 'omnifunc',
+\ 'terraform': '[^ *\t"{=$]\w*',
+\})
 
 
 " Plugin key-mappings.
