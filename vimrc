@@ -40,9 +40,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'terryma/vim-multiple-cursors'
   Plug 'sbdchd/neoformat'
 
-
   Plug 'Shougo/echodoc.vim'
-
 
   Plug 'sheerun/vim-polyglot'
   Plug 'tpope/vim-fugitive'
@@ -52,9 +50,11 @@ call plug#begin('~/.vim/plugged')
 
 
   Plug 'itchyny/lightline.vim'
+  Plug 'maximbaz/lightline-ale'
   Plug 'morhetz/gruvbox'
   Plug 'junegunn/seoul256.vim'
   Plug 'nightsense/cosmic_latte'
+  Plug 'nikitavoloboev/vim-monokai-night'
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
 
@@ -193,8 +193,11 @@ let g:NERDCustomDelimiters = {
 let g:NERDAltDelims_javascript = 1
 let g:NERDDefaultNesting = 1
 
+
+
 " Color theme
 set t_Co=256
+
 " let g:gruvbox_italic = '1'
 " colorscheme gruvbox
 
@@ -204,15 +207,42 @@ set t_Co=256
 " Light color scheme
 " colo seoul256-light
 
-colorscheme cosmic_latte
 " Switch
-if strftime('%H') >= 7 && strftime('%H') < 19
+if strftime('%H') >= 7 && strftime('%H') < 13
+  colorscheme cosmic_latte
   set background=light
   let g:lightline = { 'colorscheme': 'cosmic_latte_light' }
 else
+  colorscheme monokai-night
   set background=dark
-  let g:lightline = { 'colorscheme': 'cosmic_latte_dark' }
+  " let g:lightline = { 'colorscheme': 'cosmic_latte_dark' }
+  let g:lightline = { 'colorscheme': 'monokai-night' }
 endif
+
+let g:lightline = {}
+
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+
+let g:lightline.component_type = {
+      \     'linter_checking': 'left',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'left',
+      \ }
+
+let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]] }
+
+
+let g:lightline#ale#indicator_checking = "\uf110"
+let g:lightline#ale#indicator_warnings = "\uf071"
+let g:lightline#ale#indicator_errors = "\uf05e"
+let g:lightline#ale#indicator_ok = "\uf00c"
+
 
 
 " VIM-LSP
@@ -229,19 +259,6 @@ if executable('pyls')
     autocmd FileType python call s:configure_lsp()
 endif
 
-" function! s:configure_lsp() abort
-"   setlocal omnifunc=lsp#complete
-"   nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
-"   nnoremap <buffer> gd :<C-u>LspDefinition<CR>
-"   nnoremap <buffer> gD :<C-u>LspReferences<CR>
-"   nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
-"   nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
-"   nnoremap <buffer> gq :<C-u>LspDocumentFormat<CR>
-"   vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
-"   nnoremap <buffer> K :<C-u>LspHover<CR>
-"   nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
-"   nnoremap <buffer> <F2> :<C-u>LspRename<CR>
-" endfunction
 
 function! s:configure_lsp() abort
     setlocal omnifunc=lsp#complete
@@ -329,9 +346,6 @@ imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 imap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>\<Plug>AutoPairsReturn"
 
 
-let g:deoplete#enable_at_startup = 1
-
-
 " deoplete-go
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
@@ -357,6 +371,10 @@ call deoplete#custom#option('omni_patterns', {
 \ 'terraform': '[^ *\t"{=$]\w*',
 \})
 
+" Disable the candidates in Comment/String syntaxes.
+call deoplete#custom#source('_',
+            \ 'disabled_syntaxes', ['Comment', 'String'])
+
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
@@ -366,10 +384,11 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+imap <expr><TAB>
+\ pumvisible() ? "\<C-n>" :
+\ neosnippet#expandable_or_jumpable() ?
+\    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
