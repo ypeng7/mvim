@@ -14,6 +14,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'Yggdroot/LeaderF', {'branch': 'master', 'do': './install.sh'}
   Plug 'Yggdroot/LeaderF-marks', {'branch': 'master'}
 
+  Plug 'Yggdroot/indentLine'
+
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
@@ -450,6 +452,7 @@ for f in split(glob('~/.config/nvim/rc/ftplugin/*.vim'), '\n')
     exe 'source' f
 endfor
 
+" VM
 let g:VM_maps = {}
 let g:VM_maps['Find Under']         = '<C-d>'           " replace C-n
 let g:VM_maps['Find Subword Under'] = '<C-d>'           " replace visual C-n
@@ -465,3 +468,6 @@ endfun
 fun! VM_Exit()
   HighlightedyankOn
 endfun
+
+" indentLine
+let g:indentLine_setColors = 0
