@@ -14,6 +14,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'Yggdroot/LeaderF', {'branch': 'master', 'do': './install.sh'}
   Plug 'Yggdroot/LeaderF-marks', {'branch': 'master'}
 
+  Plug 'Yggdroot/indentLine'
+
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
@@ -34,7 +36,8 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'jiangmiao/auto-pairs'
   Plug 'machakann/vim-highlightedyank'
-  Plug 'terryma/vim-multiple-cursors'
+  " Plug 'terryma/vim-multiple-cursors'
+  Plug 'mg979/vim-visual-multi'
   Plug 'sbdchd/neoformat'
 
   Plug 'Shougo/echodoc.vim'
@@ -455,3 +458,23 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "
 for f in split(glob('~/.config/nvim/rc/ftplugin/*.vim'), '\n')
     exe 'source' f
 endfor
+
+" VM
+let g:VM_maps = {}
+let g:VM_maps['Find Under']         = '<C-d>'           " replace C-n
+let g:VM_maps['Find Subword Under'] = '<C-d>'           " replace visual C-n
+let g:VM_maps["Select l"]           = '<S-Right>'       " start selecting left
+let g:VM_maps["Select h"]           = '<S-Left>'        " start selecting right
+
+let g:VM_clear_buffer_hl = 0
+
+fun! VM_Start()
+  HighlightedyankOff
+endfun
+
+fun! VM_Exit()
+  HighlightedyankOn
+endfun
+
+" indentLine
+let g:indentLine_setColors = 0
