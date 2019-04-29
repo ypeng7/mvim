@@ -40,6 +40,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'mg979/vim-visual-multi'
   Plug 'sbdchd/neoformat'
 
+  Plug 'iamcco/mathjax-support-for-mkdp'
+  Plug 'iamcco/markdown-preview.vim'
+
   Plug 'Shougo/echodoc.vim'
 
   Plug 'sheerun/vim-polyglot'
@@ -58,17 +61,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
 
-call plug#end()
+  Plug 'nanotech/jellybeans.vim'
 
+call plug#end()
 
 filetype plugin indent on
 syntax enable
-
 
 " ================================
 "    Global configuration
 " ===============================
 set termguicolors
+set t_Co=256
 
 set autowrite
 set autochdir
@@ -91,9 +95,12 @@ set completeopt+=menuone
 set completeopt+=longest
 set completeopt+=noinsert
 set completeopt+=noselect
+set shortmess+=c
 set previewheight=5
 set noshowmode
 set cmdheight=2
+set noruler
+set noshowcmd
 set clipboard=unnamed,unnamedplus
 set mouse=a
 set mousehide
@@ -102,11 +109,17 @@ set hlsearch
 set ignorecase
 set incsearch
 set smartcase
+set showmatch
 
 set expandtab
 set shiftwidth=0
 set softtabstop=4
 set tabstop=4
+
+set wrap
+set linebreak
+set breakindent
+set noshiftround
 
 " Highlight end of line whitespace.
 highlight WhitespaceEOL ctermbg=red guibg=red
@@ -128,15 +141,37 @@ nmap <leader>bp :bprevious<CR>
 nmap <leader>bf :bfirst<CR>
 nmap <leader>bd :bdelete<CR>
 
+"Find and replace
+" map <leader>fr :%s///g<left><left>
+" map <leader>frl :s///g<left><left>
+" map <silent><leader><space> :let @/=''<cr>
+
 " autocmd FileType * nmap gd <plug>(lsp-definition)
 " autocmd FileType * nmap gD <plug>(lsp-references)
 " autocmd FileType * nmap K <plug>(lsp-hover)
 " autocmd FileType * nmap <F2> <plug>(lsp-rename)
 
+" Move up/down editor lines
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+
+"Better Focus
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Don't lose selection when shifting sidewards
+xnoremap <  <gv
+xnoremap >  >gv
 
 nmap <leader>gy :Goyo<CR>
 nmap ngy :Goyo!<CR>
 
+nmap <silent> <F5> <Plug>MarkdownPreview
+imap <silent> <F5> <Plug>MarkdownPreview
+nmap <silent> <F6> <Plug>StopMarkdownPreview
+imap <silent> <F6> <Plug>StopMarkdownPreview
 
 " ================================
 "    Plugins configuration
@@ -196,8 +231,6 @@ let g:NERDDefaultNesting = 1
 
 
 " Color theme
-set t_Co=256
-
 " let g:gruvbox_italic = '1'
 " colorscheme gruvbox
 
@@ -213,7 +246,8 @@ if strftime('%H') >= 7 && strftime('%H') < 13
   set background=light
   let g:lightline = { 'colorscheme': 'cosmic_latte_light' }
 else
-  colorscheme monokai-night
+  " colorscheme monokai-night
+  colorscheme jellybeans
   set background=dark
   " let g:lightline = { 'colorscheme': 'cosmic_latte_dark' }
   let g:lightline = { 'colorscheme': 'monokai-night' }
@@ -450,7 +484,8 @@ let g:NERDTreeIndicatorMapCustom = {
   \ }
 
 " Python Docstring
-nmap <silent> <C-d> <Plug>(pydocstring)
+" nmap <silent> <C-d> <Plug>(pydocstring)
+nmap <silent> <leader>pd <Plug>(pydocstring)
 
 
 " 打开文件自动定位到最后编辑的位置
