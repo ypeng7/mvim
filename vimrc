@@ -62,6 +62,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/limelight.vim'
 
   Plug 'nanotech/jellybeans.vim'
+  Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
 
@@ -241,19 +242,24 @@ let g:NERDDefaultNesting = 1
 " colo seoul256-light
 
 " Switch
+let g:lightline = {}
 if strftime('%H') >= 7 && strftime('%H') < 13
   colorscheme cosmic_latte
   set background=light
   let g:lightline = { 'colorscheme': 'cosmic_latte_light' }
 else
   " colorscheme monokai-night
-  colorscheme jellybeans
+  " colorscheme jellybeans
+  colorscheme nord
   set background=dark
   " let g:lightline = { 'colorscheme': 'cosmic_latte_dark' }
-  let g:lightline = { 'colorscheme': 'monokai-night' }
+  " let g:lightline = { 'colorscheme': 'monokai-night' }
+  let g:lightline = { 'colorscheme': 'nord' }
+  let g:nord_uniform_status_lines = 1
+  let g:nord_comment_brightness = 12
 endif
 
-let g:lightline = {}
+let g:nord_italic_comments = 1
 
 let g:lightline.component_expand = {
       \  'linter_checking': 'lightline#ale#checking',
@@ -513,3 +519,5 @@ endfun
 
 " indentLine
 let g:indentLine_setColors = 0
+
+
