@@ -230,7 +230,7 @@ let g:NERDDefaultNesting = 1
 
 " Switch
 let g:lightline = {}
-if strftime('%H') >= 7 && strftime('%H') < 15
+if strftime('%H') >= 7 && strftime('%H') < 13
   " colorscheme cosmic_latte
   " set background=light
 

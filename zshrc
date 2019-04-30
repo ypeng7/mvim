@@ -192,8 +192,6 @@ complete -o nospace -C /usr/local/bin/mc mc
 
 alias tianqi="curl http://wttr.in/shenzhen"
 
-# source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette_osx.sh"
-source "$HOME/.vim/plugged/cosmic_latte/shell/cosmic_latte_dark.sh"
 
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 
