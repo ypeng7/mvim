@@ -7,3 +7,6 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.c
 
 cp -r ./UltiSnips ~/.vim/
 
+# brew tap caskroom/fonts
+# brew cask install font-fira-code
+# brew cask install font-roboto-mono-for-powerline

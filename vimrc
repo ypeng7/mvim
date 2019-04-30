@@ -60,9 +60,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'nikitavoloboev/vim-monokai-night'
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
-
   Plug 'nanotech/jellybeans.vim'
   Plug 'arcticicestudio/nord-vim'
+  Plug 'ayu-theme/ayu-vim'
 
 call plug#end()
 
@@ -147,11 +147,6 @@ nmap <leader>bd :bdelete<CR>
 " map <leader>frl :s///g<left><left>
 " map <silent><leader><space> :let @/=''<cr>
 
-" autocmd FileType * nmap gd <plug>(lsp-definition)
-" autocmd FileType * nmap gD <plug>(lsp-references)
-" autocmd FileType * nmap K <plug>(lsp-hover)
-" autocmd FileType * nmap <F2> <plug>(lsp-rename)
-
 " Move up/down editor lines
 nnoremap <silent> j gj
 nnoremap <silent> k gk
@@ -187,16 +182,16 @@ let g:multi_cursor_quit_key='<Esc>'
 
 
 let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
-\   'python': ['autopep8'],
-\}
+    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \   'javascript': ['eslint'],
+    \   'python': ['autopep8'],
+    \}
 
 let g:ale_linters = {
-              \ 'python': ['/usr/local/bin/flake8', ],
-              \ 'sh': ['language_server'],
-              \ 'go': ['golint', 'go vet', 'go build'],
-              \}
+    \ 'python': ['/usr/local/bin/flake8', ],
+    \ 'sh': ['language_server'],
+    \ 'go': ['golint', 'go vet', 'go build'],
+    \}
 let g:ale_enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_set_highlights = 0
@@ -232,26 +227,25 @@ let g:NERDDefaultNesting = 1
 
 
 " Color theme
-" let g:gruvbox_italic = '1'
-" colorscheme gruvbox
-
-" Unified color scheme (default: dark)
-" colo seoul256
-
-" Light color scheme
-" colo seoul256-light
 
 " Switch
 let g:lightline = {}
-if strftime('%H') >= 7 && strftime('%H') < 13
-  colorscheme cosmic_latte
-  set background=light
+if strftime('%H') >= 7 && strftime('%H') < 15
+  " colorscheme cosmic_latte
+  " set background=light
+
+  let ayucolor="light"  " for light version of theme
+  colorscheme ayu
+
   let g:lightline = { 'colorscheme': 'cosmic_latte_light' }
 else
   " colorscheme monokai-night
   " colorscheme jellybeans
-  colorscheme nord
-  set background=dark
+  " colorscheme nord
+  " let ayucolor="mirage" " for mirage version of theme
+  let ayucolor="dark"   " for dark version of theme
+  colorscheme ayu
+  " set background=dark
   " let g:lightline = { 'colorscheme': 'cosmic_latte_dark' }
   " let g:lightline = { 'colorscheme': 'monokai-night' }
   let g:lightline = { 'colorscheme': 'nord' }
@@ -259,8 +253,7 @@ else
   let g:nord_comment_brightness = 12
 endif
 
-let g:nord_italic_comments = 1
-
+" Lightline
 let g:lightline.component_expand = {
       \  'linter_checking': 'lightline#ale#checking',
       \  'linter_warnings': 'lightline#ale#warnings',
@@ -277,12 +270,10 @@ let g:lightline.component_type = {
 
 let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]] }
 
-
 let g:lightline#ale#indicator_checking = "\uf110"
 let g:lightline#ale#indicator_warnings = "\uf071"
 let g:lightline#ale#indicator_errors = "\uf05e"
 let g:lightline#ale#indicator_ok = "\uf00c"
-
 
 
 " VIM-LSP
@@ -454,14 +445,15 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
 
 
-
 " echodoc
 set noshowmode
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
 
+
 " neoformat
 let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
+
 
 " NerdTree
 " autocmd vimenter * NERDTree
@@ -488,6 +480,7 @@ let g:NERDTreeIndicatorMapCustom = {
   \ 'Ignored'   : '☒',
   \ "Unknown"   : "?"
   \ }
+
 
 " Python Docstring
 " nmap <silent> <C-d> <Plug>(pydocstring)
@@ -517,7 +510,10 @@ fun! VM_Exit()
   HighlightedyankOn
 endfun
 
-" indentLine
+
+" IndentLine {{
+let g:indentLine_char = ''
+let g:indentLine_first_char = ''
+let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 0
-
-
+" }}
