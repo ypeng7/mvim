@@ -530,7 +530,7 @@ function! HandleURL()
   endif
 endfunction
 
-nnoremap <leader>w :call HandleURL()<CR>¬
+nnoremap <leader>oc :call HandleURL()<CR>¬
 
 
 function! OpenUrlUnderCursor()
@@ -544,8 +544,7 @@ function! OpenUrlUnderCursor()
         echo "No URL under cursor."
     endif
 endfunction
-nmap <leader>o :call OpenUrlUnderCursor()<CR>
+nmap <leader>os :call OpenUrlUnderCursor()<CR>
 
 
-" nnoremap <F3>g :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
 " nnoremap <F3>s :exe ':silent !open /Applications/Safari.app %'<CR>
