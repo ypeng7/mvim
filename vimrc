@@ -511,8 +511,41 @@ endfun
 
 
 " IndentLine {{
-let g:indentLine_char = ''
-let g:indentLine_first_char = ''
+let g:indentLine_char = '¦'
+let g:indentLine_first_char = '┆'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 0
 " }}
+
+
+function! HandleURL()
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;()]*')
+  let s:uri = shellescape(s:uri, 1)
+  echom s:uri
+  if s:uri != ""
+    silent exec "!open '".s:uri."'"
+    :redraw!
+  else
+    echo "No URI found in line."
+  endif
+endfunction
+
+nnoremap <leader>w :call HandleURL()<CR>¬
+
+
+function! OpenUrlUnderCursor()
+    let path="/Applications/Safari.app"
+    execute "normal BvEy"
+    let url=matchstr(@0, '[a-z]*:\/\/[^ >,;]*')
+    if url != ""
+        silent exec "!open -a ".path." '".url."'" | redraw!
+        echo "opened ".url
+    else
+        echo "No URL under cursor."
+    endif
+endfunction
+nmap <leader>o :call OpenUrlUnderCursor()<CR>
+
+
+" nnoremap <F3>g :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
+" nnoremap <F3>s :exe ':silent !open /Applications/Safari.app %'<CR>
