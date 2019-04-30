@@ -14,8 +14,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'Yggdroot/LeaderF', {'branch': 'master', 'do': './install.sh'}
   Plug 'Yggdroot/LeaderF-marks', {'branch': 'master'}
 
-  Plug 'Yggdroot/indentLine'
-
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
@@ -36,9 +34,9 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'jiangmiao/auto-pairs'
   Plug 'machakann/vim-highlightedyank'
-  " Plug 'terryma/vim-multiple-cursors'
   Plug 'mg979/vim-visual-multi'
   Plug 'sbdchd/neoformat'
+  Plug 'Yggdroot/indentLine'
 
   Plug 'iamcco/mathjax-support-for-mkdp'
   Plug 'iamcco/markdown-preview.vim'
@@ -54,12 +52,13 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'itchyny/lightline.vim'
   Plug 'maximbaz/lightline-ale'
+  Plug 'junegunn/goyo.vim'
+  Plug 'junegunn/limelight.vim'
+
   Plug 'morhetz/gruvbox'
   Plug 'junegunn/seoul256.vim'
   Plug 'nightsense/cosmic_latte'
   Plug 'nikitavoloboev/vim-monokai-night'
-  Plug 'junegunn/goyo.vim'
-  Plug 'junegunn/limelight.vim'
   Plug 'nanotech/jellybeans.vim'
   Plug 'arcticicestudio/nord-vim'
   Plug 'ayu-theme/ayu-vim'
