@@ -332,6 +332,7 @@ if executable('go-langserver')
         \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
         \ 'whitelist': ['go'],
         \ })
+    autocmd FileType go call s:configure_lsp()
 endif
 
 if executable('typescript-language-server')
