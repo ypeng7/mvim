@@ -378,6 +378,28 @@ if executable('ccls')
       \ })
 endif
 
+if executable('java') && filereadable(expand('~/lsp/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.300.v20190213-1655.jar'))
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'eclipse.jdt.ls',
+        \ 'cmd': {server_info->[
+        \     'java',
+        \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+        \     '-Dosgi.bundles.defaultStartLevel=4',
+        \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+        \     '-Dlog.level=ALL',
+        \     '-noverify',
+        \     '-Dfile.encoding=UTF-8',
+        \     '-Xmx1G',
+        \     '-jar',
+        \     expand('~/common/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/plugins/org.eclipse.equinox.launcher_1.5.300.v20190213-1655.jar'),
+        \     '-configuration',
+        \     expand('~/common/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/config_mac'),
+        \     '-data',
+        \     expand('~/tmp')
+        \ ]},
+        \ 'whitelist': ['java'],
+        \ })
+endif
 
 " Tab navigation in the popupmenu
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
