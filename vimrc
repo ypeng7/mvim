@@ -20,6 +20,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
+  Plug 'ryanolsonx/vim-lsp-typescript'
   Plug 'lighttiger2505/deoplete-vim-lsp'
   Plug 'Shougo/neco-vim', { 'for': 'vim' }
   Plug 'deoplete-plugins/deoplete-jedi', { 'for': 'python' }
@@ -276,18 +277,17 @@ let g:lightline#ale#indicator_ok = "\uf00c"
 
 
 " VIM-LSP
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ 'workspace_config': {'pyls': {'plugins': {
-        \   'pydocstyle': {'enabled': v:false},
-        \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
-        \ })
-    autocmd FileType python call s:configure_lsp()
-endif
+" if executable('pyls')
+"     au User lsp_setup call lsp#register_server({
+"         \ 'name': 'pyls',
+"         \ 'cmd': {server_info->['pyls']},
+"         \ 'whitelist': ['python'],
+"         \ 'workspace_config': {'pyls': {'plugins': {
+"         \   'pydocstyle': {'enabled': v:false},
+"         \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
+"         \ })
+"     autocmd FileType python call s:configure_lsp()
+" endif
 
 
 function! s:configure_lsp() abort
@@ -309,13 +309,13 @@ endfunction
 
 let g:lsp_diagnostics_enabled = 1
 
-" if executable('dotnet')
-    " au User lsp_setup call lsp#register_server({
-        " \ 'name': 'mspyls',
-        " \ 'cmd': {server_info->['dotnet', 'exec', '/Users/yuepeng/common/python-language-server/output/bin/Release/Microsoft.Python.LanguageServer.dll']},
-        " \ 'whitelist': ['python']
-        " \ })
-" endif
+if executable('dotnet')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'mspyls',
+        \ 'cmd': {server_info->['dotnet', 'exec', '~/common/python-language-server/output/bin/Release/Microsoft.Python.LanguageServer.dll']},
+        \ 'whitelist': ['python']
+        \ })
+endif
 
 " if executable('gopls')
 "     au User lsp_setup call lsp#register_server({
