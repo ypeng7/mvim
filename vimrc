@@ -63,6 +63,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'nanotech/jellybeans.vim'
   Plug 'arcticicestudio/nord-vim'
   Plug 'ayu-theme/ayu-vim'
+  Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
 
@@ -121,6 +122,8 @@ set wrap
 set linebreak
 set breakindent
 set noshiftround
+set number
+set laststatus=2
 
 " Highlight end of line whitespace.
 highlight WhitespaceEOL ctermbg=red guibg=red
@@ -230,25 +233,23 @@ let g:NERDDefaultNesting = 1
 
 " Switch
 let g:lightline = {}
+colorscheme PaperColor
+let g:lightline = { 'colorscheme': 'PaperColor' }
 if strftime('%H') >= 7 && strftime('%H') < 13
-  " colorscheme cosmic_latte
-  " set background=light
+  set background=light
 
-  let ayucolor="light"  " for light version of theme
-  colorscheme ayu
+  " let ayucolor="light"  " for light version of theme
+  " colorscheme ayu
 
-  let g:lightline = { 'colorscheme': 'cosmic_latte_light' }
+  " let g:lightline = { 'colorscheme': 'cosmic_latte_light' }
 else
   " colorscheme monokai-night
-  " colorscheme jellybeans
-  " colorscheme nord
   " let ayucolor="mirage" " for mirage version of theme
-  let ayucolor="dark"   " for dark version of theme
-  colorscheme ayu
-  " set background=dark
+  " let ayucolor="dark"   " for dark version of theme
+  " colorscheme ayu
+  set background=dark
   " let g:lightline = { 'colorscheme': 'cosmic_latte_dark' }
   " let g:lightline = { 'colorscheme': 'monokai-night' }
-  let g:lightline = { 'colorscheme': 'nord' }
   let g:nord_uniform_status_lines = 1
   let g:nord_comment_brightness = 12
 endif
@@ -277,17 +278,17 @@ let g:lightline#ale#indicator_ok = "\uf00c"
 
 
 " VIM-LSP
-" if executable('pyls')
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'pyls',
-"         \ 'cmd': {server_info->['pyls']},
-"         \ 'whitelist': ['python'],
-"         \ 'workspace_config': {'pyls': {'plugins': {
-"         \   'pydocstyle': {'enabled': v:false},
-"         \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
-"         \ })
-"     autocmd FileType python call s:configure_lsp()
-" endif
+if executable('pyls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ 'workspace_config': {'pyls': {'plugins': {
+        \   'pydocstyle': {'enabled': v:false},
+        \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
+        \ })
+    autocmd FileType python call s:configure_lsp()
+endif
 
 
 function! s:configure_lsp() abort
@@ -309,13 +310,13 @@ endfunction
 
 let g:lsp_diagnostics_enabled = 1
 
-if executable('dotnet')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'mspyls',
-        \ 'cmd': {server_info->['dotnet', 'exec', '~/common/python-language-server/output/bin/Release/Microsoft.Python.LanguageServer.dll']},
-        \ 'whitelist': ['python']
-        \ })
-endif
+" if executable('dotnet')
+"     au User lsp_setup call lsp#register_server({
+"         \ 'name': 'mspyls',
+"         \ 'cmd': {server_info->['dotnet', 'exec', '~/common/python-language-server/output/bin/Release/Microsoft.Python.LanguageServer.dll']},
+"         \ 'whitelist': ['python']
+"         \ })
+" endif
 
 " if executable('gopls')
 "     au User lsp_setup call lsp#register_server({
