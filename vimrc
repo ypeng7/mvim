@@ -236,7 +236,7 @@ let g:NERDDefaultNesting = 1
 let g:lightline = {}
 colorscheme PaperColor
 let g:lightline = { 'colorscheme': 'PaperColor' }
-if strftime('%H') >= 7 && strftime('%H') < 13
+if strftime('%H') >= 7 && strftime('%H') < 18
   set background=light
 
   " let ayucolor="light"  " for light version of theme
