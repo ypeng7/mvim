@@ -58,11 +58,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/limelight.vim'
 
   Plug 'morhetz/gruvbox'
-  Plug 'junegunn/seoul256.vim'
-  Plug 'nightsense/cosmic_latte'
-  Plug 'nikitavoloboev/vim-monokai-night'
-  Plug 'nanotech/jellybeans.vim'
-  Plug 'arcticicestudio/nord-vim'
+  " Plug 'junegunn/seoul256.vim'
+  " Plug 'nightsense/cosmic_latte'
+  " Plug 'nikitavoloboev/vim-monokai-night'
+  " Plug 'nanotech/jellybeans.vim'
+  " Plug 'arcticicestudio/nord-vim'
   Plug 'ayu-theme/ayu-vim'
   Plug 'NLKNguyen/papercolor-theme'
 
@@ -120,11 +120,15 @@ set softtabstop=4
 set tabstop=4
 
 set wrap
+set wrapmargin=2
 set linebreak
 set breakindent
 set noshiftround
 set number
+set relativenumber
 set laststatus=2
+set spell spelllang=en_us
+set autoread
 
 " Highlight end of line whitespace.
 highlight WhitespaceEOL ctermbg=red guibg=red
