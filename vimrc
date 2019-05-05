@@ -29,6 +29,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
   Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
   Plug 'Shougo/neco-syntax'
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
@@ -580,3 +581,12 @@ nmap <leader>os :call OpenUrlUnderCursor()<CR>
 
 
 " nnoremap <F3>s :exe ':silent !open /Applications/Safari.app %'<CR>
+
+
+autocmd FileType go nmap <leader>gb  <Plug>(go-build)
+autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+let g:go_list_type = "quickfix"
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
