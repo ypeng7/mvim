@@ -127,7 +127,7 @@ set noshiftround
 set number
 set relativenumber
 set laststatus=2
-set spell spelllang=en_us
+" set spell spelllang=en_us
 set autoread
 
 " Highlight end of line whitespace.
@@ -240,7 +240,7 @@ let g:NERDDefaultNesting = 1
 let g:lightline = {}
 colorscheme PaperColor
 let g:lightline = { 'colorscheme': 'PaperColor' }
-if strftime('%H') >= 7 && strftime('%H') < 18
+if strftime('%H') >= 7 && strftime('%H') < 12
   set background=light
 
   " let ayucolor="light"  " for light version of theme
