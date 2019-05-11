@@ -1,12 +1,8 @@
-" sh ./installer.sh ~/.cache/dein
-
 if &compatible
   set nocompatible
 endif
 
 call plug#begin('~/.vim/plugged')
-  " Asynchronous Lint Engine
-  Plug 'w0rp/ale'
   Plug 'scrooloose/nerdtree'
   Plug 'jistr/vim-nerdtree-tabs'
   Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -30,6 +26,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
   Plug 'Shougo/neco-syntax'
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+  Plug 'ryanolsonx/vim-lsp-javascript'
 
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
@@ -53,17 +50,9 @@ call plug#begin('~/.vim/plugged')
 
 
   Plug 'itchyny/lightline.vim'
-  Plug 'maximbaz/lightline-ale'
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
 
-  Plug 'morhetz/gruvbox'
-  " Plug 'junegunn/seoul256.vim'
-  " Plug 'nightsense/cosmic_latte'
-  " Plug 'nikitavoloboev/vim-monokai-night'
-  " Plug 'nanotech/jellybeans.vim'
-  " Plug 'arcticicestudio/nord-vim'
-  Plug 'ayu-theme/ayu-vim'
   Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
@@ -140,10 +129,6 @@ match WhitespaceEOL /\s\+$/
 let mapleader = "\<SPACE>"
 let maplocalleader = ","
 
-" ALE
-nmap <silent> <leader>ak <Plug>(ale_previous_wrap)
-nmap <silent> <leader>aj <Plug>(ale_next_wrap)
-
 " Buffer
 nmap <leader>bn :bnext<CR>
 nmap <leader>bp :bprevious<CR>
@@ -183,40 +168,6 @@ imap <silent> <F6> <Plug>StopMarkdownPreview
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
-let g:multi_cursor_next_key='<C-n>'
-let g:multi_cursor_prev_key='<C-p>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
-
-
-let g:ale_fixers = {
-    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \   'javascript': ['eslint'],
-    \   'python': ['autopep8'],
-    \}
-
-let g:ale_linters = {
-    \ 'python': ['/usr/local/bin/flake8', ],
-    \ 'sh': ['language_server'],
-    \ 'go': ['golint', 'go vet', 'go build'],
-    \}
-let g:ale_enabled = 1
-let g:ale_sign_column_always = 1
-let g:ale_set_highlights = 0
-"自定义error和warning图标
-let g:ale_sign_error = '😡'
-let g:ale_sign_warning = '😃'
-highlight ALEErrorSign guifg=red ctermfg=red
-highlight ALEWarningSign guifg=grey ctermfg=grey
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:move_key_modifier = 'N'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_save = 1
-
-
 " NERDCommenter
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
@@ -232,54 +183,16 @@ let g:NERDCustomDelimiters = {
 let g:NERDAltDelims_javascript = 1
 let g:NERDDefaultNesting = 1
 
-
-
 " Color theme
-
-" Switch
 let g:lightline = {}
 colorscheme PaperColor
 let g:lightline = { 'colorscheme': 'PaperColor' }
-if strftime('%H') >= 7 && strftime('%H') < 12
+if strftime('%H') >= 7 && strftime('%H') < 16
   set background=light
 
-  " let ayucolor="light"  " for light version of theme
-  " colorscheme ayu
-
-  " let g:lightline = { 'colorscheme': 'cosmic_latte_light' }
 else
-  " colorscheme monokai-night
-  " let ayucolor="mirage" " for mirage version of theme
-  " let ayucolor="dark"   " for dark version of theme
-  " colorscheme ayu
   set background=dark
-  " let g:lightline = { 'colorscheme': 'cosmic_latte_dark' }
-  " let g:lightline = { 'colorscheme': 'monokai-night' }
-  let g:nord_uniform_status_lines = 1
-  let g:nord_comment_brightness = 12
 endif
-
-" Lightline
-let g:lightline.component_expand = {
-      \  'linter_checking': 'lightline#ale#checking',
-      \  'linter_warnings': 'lightline#ale#warnings',
-      \  'linter_errors': 'lightline#ale#errors',
-      \  'linter_ok': 'lightline#ale#ok',
-      \ }
-
-let g:lightline.component_type = {
-      \     'linter_checking': 'left',
-      \     'linter_warnings': 'warning',
-      \     'linter_errors': 'error',
-      \     'linter_ok': 'left',
-      \ }
-
-let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]] }
-
-let g:lightline#ale#indicator_checking = "\uf110"
-let g:lightline#ale#indicator_warnings = "\uf071"
-let g:lightline#ale#indicator_errors = "\uf05e"
-let g:lightline#ale#indicator_ok = "\uf00c"
 
 
 " VIM-LSP
@@ -313,33 +226,25 @@ function! s:configure_lsp() abort
 endfunction
 
 
-let g:lsp_diagnostics_enabled = 1
 
-" if executable('dotnet')
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'mspyls',
-"         \ 'cmd': {server_info->['dotnet', 'exec', '~/common/python-language-server/output/bin/Release/Microsoft.Python.LanguageServer.dll']},
-"         \ 'whitelist': ['python']
-"         \ })
-" endif
 
-" if executable('gopls')
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'gopls',
-"         \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-"         \ 'whitelist': ['go'],
-"         \ })
-"     autocmd FileType go call s:configure_lsp()
-" endif
-
-if executable('go-langserver')
+if executable('gopls')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'go-langserver',
-        \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
         \ 'whitelist': ['go'],
         \ })
     autocmd FileType go call s:configure_lsp()
 endif
+
+" if executable('go-langserver')
+"     au User lsp_setup call lsp#register_server({
+"         \ 'name': 'go-langserver',
+"         \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
+"         \ 'whitelist': ['go'],
+"         \ })
+"     autocmd FileType go call s:configure_lsp()
+" endif
 
 if executable('typescript-language-server')
     au User lsp_setup call lsp#register_server({
@@ -359,20 +264,16 @@ if executable('docker-langserver')
         \ })
 endif
 
-" if executable('clangd')
-"     augroup lsp_clangd
-"         autocmd!
-"         autocmd User lsp_setup call lsp#register_server({
-"                     \ 'name': 'clangd',
-"                     \ 'cmd': {server_info->['clangd']},
-"                     \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-"                     \ })
-"         autocmd FileType c setlocal omnifunc=lsp#complete
-"         autocmd FileType cpp setlocal omnifunc=lsp#complete
-"         autocmd FileType objc setlocal omnifunc=lsp#complete
-"         autocmd FileType objcpp setlocal omnifunc=lsp#complete
-"     augroup end
-" endif
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+      \ 'name': 'javascript support using typescript-language-server',
+      \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+      \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
+      \ 'whitelist': ['javascript', 'javascript.jsx']
+      \ })
+endif
+
+
 
 if executable('ccls')
    au User lsp_setup call lsp#register_server({
@@ -383,6 +284,8 @@ if executable('ccls')
       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
       \ })
 endif
+
+let g:lsp_diagnostics_enabled = 1
 
 " Tab navigation in the popupmenu
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -405,9 +308,9 @@ let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 
 " deoplete-jedi
-let g:deoplete#sources#jedi#statement_length = 30
-let g:deoplete#sources#jedi#short_types = 1
-let g:deoplete#sources#jedi#show_docstring = 1
+" let g:deoplete#sources#jedi#statement_length = 30
+" let g:deoplete#sources#jedi#short_types = 1
+" let g:deoplete#sources#jedi#show_docstring = 1
 
 call deoplete#custom#option({
 	\ 'auto_refresh_delay': 10,
@@ -569,3 +472,5 @@ let g:go_list_type = "quickfix"
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
+
+setlocal foldmethod=syntax
