@@ -27,6 +27,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/neco-syntax'
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   Plug 'ryanolsonx/vim-lsp-javascript'
+  Plug 'mattn/emmet-vim'
 
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
