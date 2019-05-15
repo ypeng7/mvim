@@ -28,13 +28,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'iamcco/markdown-preview.vim'
 
   Plug 'Shougo/echodoc.vim'
-
   Plug 'sheerun/vim-polyglot'
   Plug 'tpope/vim-fugitive'
   Plug 'scrooloose/nerdcommenter'
   Plug 'tpope/vim-surround'
   Plug 'heavenshell/vim-pydocstring'
-
 
   Plug 'itchyny/lightline.vim'
   Plug 'junegunn/goyo.vim'
@@ -122,10 +120,6 @@ nmap <leader>bp :bprevious<CR>
 nmap <leader>bf :bfirst<CR>
 nmap <leader>bd :bdelete<CR>
 
-"Find and replace
-" map <leader>fr :%s///g<left><left>
-" map <leader>frl :s///g<left><left>
-" map <silent><leader><space> :let @/=''<cr>
 
 " Move up/down editor lines
 nnoremap <silent> j gj
@@ -154,6 +148,8 @@ imap <silent> <F6> <Plug>StopMarkdownPreview
 " ===============================
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
+
+let python_highlight_all = 1
 
 " completor
 let g:completor_gocode_binary = '$HOME/go/bin/gocode'
@@ -320,8 +316,7 @@ autocmd FileType go nmap <leader>gb  <Plug>(go-build)
 autocmd FileType go nmap <leader>gr  <Plug>(go-run)
 autocmd FileType go nmap <leader>gt  <Plug>(go-test)
 let g:go_list_type = "quickfix"
-map <C-n> :cnext<CR>
-map <C-m> :cprevious<CR>
-nnoremap <leader>a :cclose<CR>
+" map <C-n> :cnext<CR>
+" map <C-m> :cprevious<CR>
+" nnoremap <leader>a :cclose<CR>
 
-setlocal foldmethod=syntax
