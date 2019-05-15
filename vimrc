@@ -323,5 +323,3 @@ let g:go_list_type = "quickfix"
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
-
-setlocal foldmethod=syntax
