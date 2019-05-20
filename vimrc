@@ -4,15 +4,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall --sync | nested source $MYVIMRC
 endif
 
-if &compatible
-  set nocompatible
-endif
 
 call plug#begin('~/.vim/plugged')
-  Plug 'scrooloose/nerdtree'
-  Plug 'jistr/vim-nerdtree-tabs'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-
   Plug 'Yggdroot/LeaderF', {'branch': 'master', 'do': './install.sh'}
   Plug 'Yggdroot/LeaderF-marks', {'branch': 'master'}
 
@@ -75,13 +68,29 @@ syntax enable
 " ===============================
 set termguicolors
 set t_Co=256
+"more characters will be sent to the screen for redrawing
+set ttyfast
+
+"time waited for key press(es) to complete. It makes for a faster key response
+set ttimeout
+set ttimeoutlen=50
+
+"make backspace behave properly in insert mode
+set backspace=indent,eol,start
+set noshowcmd
+"a better menu in command mode
+set wildmenu
+set wildmode=longest:full,full
+
+set splitbelow
+set splitright
 
 set autowrite
 set autochdir
 set nobackup
 set noswapfile
 set nowritebackup
-set colorcolumn=80
+set colorcolumn=81
 set nocursorline
 set encoding=utf-8
 set fileencodings=utf-8,gbk,gb18030,gk2312,chinese,latin-1
@@ -102,7 +111,6 @@ set previewheight=5
 set noshowmode
 set cmdheight=2
 set noruler
-set noshowcmd
 set clipboard=unnamed,unnamedplus
 set mouse=a
 set mousehide
@@ -383,33 +391,6 @@ let g:echodoc#type = 'signature'
 let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
 
 
-" NerdTree
-" autocmd vimenter * NERDTree
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-map <leader>n :NERDTreeToggle<CR>
-
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let NERDTreeMinimalUI = 1
-let NERDTreeShowHidden = 1
-
-" let g:nerdtree_tabs_open_on_console_startup = 1
-let g:nerdtree_tabs_focus_on_files = 1
-
-let g:NERDTreeIndicatorMapCustom = {
-  \ "Modified"  : "✹",
-  \ "Staged"    : "✚",
-  \ "Untracked" : "✭",
-  \ "Renamed"   : "➜",
-  \ "Unmerged"  : "═",
-  \ "Deleted"   : "✖",
-  \ "Dirty"     : "✗",
-  \ "Clean"     : "✔︎",
-  \ 'Ignored'   : '☒',
-  \ "Unknown"   : "?"
-  \ }
-
-
 " Python Docstring
 " nmap <silent> <C-d> <Plug>(pydocstring)
 nmap <silent> <leader>pd <Plug>(pydocstring)
@@ -446,6 +427,14 @@ let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 0
 " }}
 
+" netrw
+let g:netrw_banner=0
+let g:netrw_winsize=20
+let g:netrw_liststyle=3
+let g:netrw_localrmdir='rm -r'
+
+"toggle netrw on the left side of the editor
+nnoremap <leader>n :Lexplore<CR>
 
 function! HandleURL()
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;()]*')
@@ -462,21 +451,6 @@ endfunction
 nnoremap <leader>oc :call HandleURL()<CR>¬
 
 
-function! OpenUrlUnderCursor()
-    let path="/Applications/Safari.app"
-    execute "normal BvEy"
-    let url=matchstr(@0, '[a-z]*:\/\/[^ >,;]*')
-    if url != ""
-        silent exec "!open -a ".path." '".url."'" | redraw!
-        echo "opened ".url
-    else
-        echo "No URL under cursor."
-    endif
-endfunction
-nmap <leader>os :call OpenUrlUnderCursor()<CR>
-
-" nnoremap <F3>s :exe ':silent !open /Applications/Safari.app %'<CR>
-
 autocmd FileType go nmap <leader>gb  <Plug>(go-build)
 autocmd FileType go nmap <leader>gr  <Plug>(go-run)
 autocmd FileType go nmap <leader>gt  <Plug>(go-test)
@@ -485,4 +459,3 @@ map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
 
-setlocal foldmethod=syntax
