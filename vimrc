@@ -18,18 +18,13 @@ call plug#begin('~/.vim/plugged')
   Plug 'ryanolsonx/vim-lsp-typescript'
   Plug 'lighttiger2505/deoplete-vim-lsp'
   Plug 'Shougo/neco-vim', { 'for': 'vim' }
-  Plug 'deoplete-plugins/deoplete-jedi', { 'for': 'python' }
   Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
   Plug 'Quramy/tsuquyomi', {'for': 'typescript' }
   Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
   Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
   Plug 'Shougo/neco-syntax'
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   Plug 'ryanolsonx/vim-lsp-javascript'
   Plug 'mattn/emmet-vim'
-
-  Plug 'euclio/gitignore.vim'
-  Plug 'raimon49/requirements.txt.vim'
 
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
@@ -449,13 +444,4 @@ function! HandleURL()
 endfunction
 
 nnoremap <leader>oc :call HandleURL()<CR>¬
-
-
-autocmd FileType go nmap <leader>gb  <Plug>(go-build)
-autocmd FileType go nmap <leader>gr  <Plug>(go-run)
-autocmd FileType go nmap <leader>gt  <Plug>(go-test)
-let g:go_list_type = "quickfix"
-map <C-n> :cnext<CR>
-map <C-m> :cprevious<CR>
-nnoremap <leader>a :cclose<CR>
 
