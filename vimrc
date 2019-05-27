@@ -12,6 +12,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
@@ -313,19 +314,26 @@ let g:AutoPairsMapCR=0
 let g:deoplete#auto_complete_start_length = 1
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
+let g:deoplete#file#enable_buffer_path=1
+let g:deoplete#file#force_completion_length=2
+
+call deoplete#custom#option('smart_case', v:true)
+
 imap <expr><TAB> pumvisible() ? "\<C-n>" : (neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>")
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 imap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>\<Plug>AutoPairsReturn"
+
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+  return deoplete#close_popup() . "\<CR>"
+endfunction
 
 
 " deoplete-go
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 
-" deoplete-jedi
-" let g:deoplete#sources#jedi#statement_length = 30
-" let g:deoplete#sources#jedi#short_types = 1
-" let g:deoplete#sources#jedi#show_docstring = 1
 
 call deoplete#custom#option({
 	\ 'auto_refresh_delay': 10,
@@ -347,6 +355,10 @@ call deoplete#custom#option('omni_patterns', {
 call deoplete#custom#source('_',
             \ 'disabled_syntaxes', ['Comment', 'String'])
 
+call deoplete#custom#var('tabnine', {
+\ 'line_limit': 500,
+\ 'max_num_results': 20,
+\ })
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
