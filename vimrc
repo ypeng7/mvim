@@ -1,3 +1,7 @@
+if &compatible
+  set nocompatible
+endif
+
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -12,7 +16,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
-  Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
@@ -22,7 +25,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
   Plug 'Quramy/tsuquyomi', {'for': 'typescript' }
   Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
-  Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
   Plug 'Shougo/neco-syntax'
   Plug 'ryanolsonx/vim-lsp-javascript'
   Plug 'mattn/emmet-vim'
@@ -51,6 +53,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'itchyny/lightline.vim'
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
+  Plug 'junegunn/rainbow_parentheses.vim'
 
   Plug 'NLKNguyen/papercolor-theme'
 
@@ -69,10 +72,11 @@ set ttyfast
 
 "time waited for key press(es) to complete. It makes for a faster key response
 set ttimeout
-set ttimeoutlen=50
 
 "make backspace behave properly in insert mode
 set backspace=indent,eol,start
+" Highlight <>.
+set matchpairs+=<:>
 set noshowcmd
 "a better menu in command mode
 set wildmenu
@@ -86,7 +90,7 @@ set autochdir
 set nobackup
 set noswapfile
 set nowritebackup
-set colorcolumn=81
+set colorcolumn=79
 set nocursorline
 set encoding=utf-8
 set fileencodings=utf-8,gbk,gb18030,gk2312,chinese,latin-1
@@ -97,6 +101,7 @@ set scrolljump=5
 set scrolloff=3
 set showmatch
 set autoindent
+set smartindent
 set completeopt+=preview
 set completeopt+=menuone
 set completeopt+=longest
@@ -104,20 +109,37 @@ set completeopt+=noinsert
 set completeopt+=noselect
 set shortmess+=c
 set previewheight=5
+
+" Show title.
+set title
+" Title length.
+set titlelen=95
+
 set noshowmode
 set cmdheight=2
 set noruler
-set clipboard=unnamed,unnamedplus
+" set clipboard=unnamed,unnamedplus
 set mouse=a
 set mousehide
+
+if (!has('nvim') || $DISPLAY != '') && has('clipboard')
+  if has('unnamedplus')
+     set clipboard& clipboard+=unnamedplus
+  else
+     set clipboard& clipboard+=unnamed
+  endif
+endif
 
 set hlsearch
 set ignorecase
 set incsearch
 set smartcase
 set showmatch
+set wrapscan
+set shiftround
 
 set expandtab
+set smarttab
 set shiftwidth=0
 set softtabstop=4
 set tabstop=4
@@ -132,6 +154,49 @@ set relativenumber
 set laststatus=2
 " set spell spelllang=en_us
 set autoread
+
+" Enable folding.
+set foldenable
+set foldmethod=indent
+" Show folding level.
+set foldcolumn=1
+set fillchars=vert:\|
+set commentstring=%s
+
+" Keymapping timeout.
+set timeout timeoutlen=3000 ttimeoutlen=100
+
+" CursorHold time.
+set updatetime=100
+
+" Title string.
+let &g:titlestring="
+      \ %{expand('%:p:~:.')}%(%m%r%w%)
+      \ %<\(%{fnamemodify(getcwd(), ':~')}\) - VIM"
+" Disable tabline.
+set showtabline=0
+
+" Set statusline.
+let &g:statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
+      \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
+      \ . "%{(&previewwindow?'[preview] ':'').expand('%:t')}"
+      \ . "\ %=%{(winnr('$')==1 || winnr('#')!=winnr()) ?
+      \ '['.(&filetype!=''?&filetype.',':'')"
+      \ . ".(&fenc!=''?&fenc:&enc).','.&ff.']' : ''}"
+      \ . "%m%{printf('%'.(len(line('$'))+2).'d/%d',line('.'),line('$'))}"
+
+" Turn down a long line appointed in 'breakat'
+set linebreak
+set showbreak=\
+set breakat=\ \	;:,!?
+" Wrap conditions.
+set whichwrap+=h,l,<,>,[,],b,s,~
+if exists('+breakindent')
+  set breakindent
+  set wrap
+else
+  set nowrap
+endif
 
 " Highlight end of line whitespace.
 highlight WhitespaceEOL ctermbg=red guibg=red
@@ -208,7 +273,6 @@ else
   set background=dark
 endif
 
-
 " VIM-LSP
 if executable('pyls')
     au User lsp_setup call lsp#register_server({
@@ -221,7 +285,6 @@ if executable('pyls')
         \ })
     autocmd FileType python call s:configure_lsp()
 endif
-
 
 function! s:configure_lsp() abort
     setlocal omnifunc=lsp#complete
@@ -239,9 +302,6 @@ function! s:configure_lsp() abort
     nnoremap <buffer> gi :<C-u>LspImplementation<CR>
 endfunction
 
-
-
-
 if executable('gopls')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'gopls',
@@ -250,15 +310,6 @@ if executable('gopls')
         \ })
     autocmd FileType go call s:configure_lsp()
 endif
-
-" if executable('go-langserver')
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'go-langserver',
-"         \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
-"         \ 'whitelist': ['go'],
-"         \ })
-"     autocmd FileType go call s:configure_lsp()
-" endif
 
 if executable('typescript-language-server')
     au User lsp_setup call lsp#register_server({
@@ -287,8 +338,6 @@ if executable('typescript-language-server')
       \ })
 endif
 
-
-
 if executable('ccls')
    au User lsp_setup call lsp#register_server({
       \ 'name': 'ccls',
@@ -310,6 +359,29 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " Deoplete
 " deoplete + neosnippet + autopairs changes
+" <TAB>: completion.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#manual_complete()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+
+inoremap <expr><C-g>       deoplete#refresh()
+inoremap <expr><C-e>       deoplete#cancel_popup()
+inoremap <silent><expr><C-l> deoplete#complete_common_string()
+
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+  return deoplete#close_popup() . "\<CR>"
+endfunction
+
 let g:AutoPairsMapCR=0
 let g:deoplete#auto_complete_start_length = 1
 let g:deoplete#enable_at_startup = 1
@@ -323,41 +395,38 @@ imap <expr><TAB> pumvisible() ? "\<C-n>" : (neosnippet#expandable_or_jumpable() 
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 imap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>\<Plug>AutoPairsReturn"
 
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function() abort
-  return deoplete#close_popup() . "\<CR>"
-endfunction
-
-
-" deoplete-go
-let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-
+call deoplete#custom#source('_', 'matchers',
+\ ['matcher_fuzzy', 'matcher_length'])
+call deoplete#custom#source('eskk', 'matchers', [])
+call deoplete#custom#source('look', 'filetypes', ['help', 'gitcommit'])
+call deoplete#custom#option('ignore_sources', {
+      \ '_': ['around', 'buffer'],
+\ })
 
 call deoplete#custom#option({
-	\ 'auto_refresh_delay': 10,
-	\ 'camel_case': v:true,
-	\ 'skip_multibyte': v:true,
-	\ 'prev_completion_mode': 'filter',
-	\ 'min_pattern_length': 1,
-	\ 'max_list': 10000,
-	\ 'skip_chars': ['(', ')', '<', '>'],
-	\ })
+      \ 'auto_refresh_delay': 10,
+      \ 'camel_case': v:true,
+      \ 'skip_multibyte': v:true,
+      \ 'prev_completion_mode': 'none',
+      \ 'auto_preview': v:true,
+\ })
 
-let g:deoplete#omni_patterns = get(g:, 'deoplete#omni_patterns', {})
-call deoplete#custom#option('omni_patterns', {
-\ 'complete_method': 'omnifunc',
-\ 'terraform': '[^ *\t"{=$]\w*',
-\})
+call deoplete#custom#source('zsh', 'filetypes', ['zsh', 'sh'])
 
-" Disable the candidates in Comment/String syntaxes.
-call deoplete#custom#source('_',
-            \ 'disabled_syntaxes', ['Comment', 'String'])
+call deoplete#custom#source('_', 'converters', [
+      \ 'converter_remove_paren',
+      \ 'converter_remove_overlap',
+      \ 'matcher_length',
+      \ 'converter_truncate_abbr',
+      \ 'converter_truncate_info',
+      \ 'converter_truncate_menu',
+      \ 'converter_auto_delimiter',
+      \ ])
+call deoplete#custom#source('eskk', 'converters', [])
 
-call deoplete#custom#var('tabnine', {
-\ 'line_limit': 500,
-\ 'max_num_results': 20,
+call deoplete#custom#option('keyword_patterns', {
+      \ '_': '[a-zA-Z_]\k*\(?',
+      \ 'tex': '[^\w|\s][a-zA-Z_]\w*',
 \ })
 
 " Plugin key-mappings.
@@ -392,7 +461,6 @@ let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
 set noshowmode
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
-
 
 " neoformat
 let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
