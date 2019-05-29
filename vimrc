@@ -155,13 +155,6 @@ set laststatus=2
 " set spell spelllang=en_us
 set autoread
 
-" Enable folding.
-set foldenable
-set foldmethod=indent
-" Show folding level.
-set foldcolumn=1
-set fillchars=vert:\|
-set commentstring=%s
 
 " Keymapping timeout.
 set timeout timeoutlen=3000 ttimeoutlen=100
@@ -465,11 +458,9 @@ let g:echodoc#type = 'signature'
 " neoformat
 let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
 
-
 " Python Docstring
 " nmap <silent> <C-d> <Plug>(pydocstring)
 nmap <silent> <leader>pd <Plug>(pydocstring)
-
 
 " 打开文件自动定位到最后编辑的位置
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
