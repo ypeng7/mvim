@@ -61,6 +61,8 @@ set termguicolors
 set t_Co=256
 
 set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,utf-16,gbk,big5,gb18030,latin1
+set termencoding=utf-8
 " Use unix as the standard file type
 set ffs=unix,dos,mac
 
