@@ -19,14 +19,10 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
-  Plug 'ryanolsonx/vim-lsp-typescript'
   Plug 'lighttiger2505/deoplete-vim-lsp'
   Plug 'Shougo/neco-vim', { 'for': 'vim' }
-  Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-  Plug 'Quramy/tsuquyomi', {'for': 'typescript' }
   Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
   Plug 'Shougo/neco-syntax'
-  Plug 'ryanolsonx/vim-lsp-javascript'
   Plug 'mattn/emmet-vim'
 
   Plug 'SirVer/ultisnips'
@@ -59,173 +55,14 @@ call plug#begin('~/.vim/plugged')
 
 call plug#end()
 
-filetype plugin indent on
-syntax enable
+for rcfile in split(globpath("~/mvim/rc", "*.vim"), '\n')
+	execute('source '.rcfile)
+endfor
+
 
 " ================================
-"    Global configuration
+"    Plugins configuration
 " ===============================
-set termguicolors
-set t_Co=256
-"more characters will be sent to the screen for redrawing
-set ttyfast
-
-"time waited for key press(es) to complete. It makes for a faster key response
-set ttimeout
-
-"make backspace behave properly in insert mode
-set backspace=indent,eol,start
-" Highlight <>.
-set matchpairs+=<:>
-set noshowcmd
-"a better menu in command mode
-set wildmenu
-set wildmode=longest:full,full
-
-set splitbelow
-set splitright
-
-set autowrite
-set autochdir
-set nobackup
-set noswapfile
-set nowritebackup
-set colorcolumn=79
-set nocursorline
-set encoding=utf-8
-set fileencodings=utf-8,gbk,gb18030,gk2312,chinese,latin-1
-set hidden
-set history=1000
-set linespace=0
-set scrolljump=5
-set scrolloff=3
-set showmatch
-set autoindent
-set smartindent
-set completeopt+=preview
-set completeopt+=menuone
-set completeopt+=longest
-set completeopt+=noinsert
-set completeopt+=noselect
-set shortmess+=c
-set previewheight=5
-
-" Show title.
-set title
-" Title length.
-set titlelen=95
-
-set noshowmode
-set cmdheight=2
-set noruler
-" set clipboard=unnamed,unnamedplus
-set mouse=a
-set mousehide
-
-if (!has('nvim') || $DISPLAY != '') && has('clipboard')
-  if has('unnamedplus')
-     set clipboard& clipboard+=unnamedplus
-  else
-     set clipboard& clipboard+=unnamed
-  endif
-endif
-
-set hlsearch
-set ignorecase
-set incsearch
-set smartcase
-set showmatch
-set wrapscan
-set shiftround
-
-set expandtab
-set smarttab
-set shiftwidth=0
-set softtabstop=4
-set tabstop=4
-
-set wrap
-set wrapmargin=2
-set linebreak
-set breakindent
-set noshiftround
-set number
-set relativenumber
-set laststatus=2
-" set spell spelllang=en_us
-set autoread
-
-
-" Keymapping timeout.
-set timeout timeoutlen=3000 ttimeoutlen=100
-
-" CursorHold time.
-set updatetime=100
-
-" Title string.
-let &g:titlestring="
-      \ %{expand('%:p:~:.')}%(%m%r%w%)
-      \ %<\(%{fnamemodify(getcwd(), ':~')}\) - VIM"
-" Disable tabline.
-set showtabline=0
-
-" Set statusline.
-let &g:statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
-      \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
-      \ . "%{(&previewwindow?'[preview] ':'').expand('%:t')}"
-      \ . "\ %=%{(winnr('$')==1 || winnr('#')!=winnr()) ?
-      \ '['.(&filetype!=''?&filetype.',':'')"
-      \ . ".(&fenc!=''?&fenc:&enc).','.&ff.']' : ''}"
-      \ . "%m%{printf('%'.(len(line('$'))+2).'d/%d',line('.'),line('$'))}"
-
-" Turn down a long line appointed in 'breakat'
-set linebreak
-set showbreak=\
-set breakat=\ \	;:,!?
-" Wrap conditions.
-set whichwrap+=h,l,<,>,[,],b,s,~
-if exists('+breakindent')
-  set breakindent
-  set wrap
-else
-  set nowrap
-endif
-
-" Highlight end of line whitespace.
-highlight WhitespaceEOL ctermbg=red guibg=red
-match WhitespaceEOL /\s\+$/
-
-" ================================
-"    Keymap configuration
-" ===============================
-let mapleader = "\<SPACE>"
-let maplocalleader = ","
-
-" Buffer
-nmap <leader>bn :bnext<CR>
-nmap <leader>bp :bprevious<CR>
-nmap <leader>bf :bfirst<CR>
-nmap <leader>bd :bdelete<CR>
-
-"Find and replace
-" map <leader>fr :%s///g<left><left>
-" map <leader>frl :s///g<left><left>
-" map <silent><leader><space> :let @/=''<cr>
-
-" Move up/down editor lines
-nnoremap <silent> j gj
-nnoremap <silent> k gk
-
-"Better Focus
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" Don't lose selection when shifting sidewards
-xnoremap <  <gv
-xnoremap >  >gv
-
 nmap <leader>gy :Goyo<CR>
 nmap ngy :Goyo!<CR>
 
@@ -234,9 +71,6 @@ imap <silent> <F5> <Plug>MarkdownPreview
 nmap <silent> <F6> <Plug>StopMarkdownPreview
 imap <silent> <F6> <Plug>StopMarkdownPreview
 
-" ================================
-"    Plugins configuration
-" ===============================
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
@@ -259,9 +93,8 @@ let g:NERDDefaultNesting = 1
 let g:lightline = {}
 colorscheme PaperColor
 let g:lightline = { 'colorscheme': 'PaperColor' }
-if strftime('%H') >= 7 && strftime('%H') < 16
+if strftime('%H') >= 7 && strftime('%H') < 18
   set background=light
-
 else
   set background=dark
 endif
@@ -304,31 +137,12 @@ if executable('gopls')
     autocmd FileType go call s:configure_lsp()
 endif
 
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'typescript-language-server',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript', 'typescript.tsx'],
-        \ })
-    autocmd FileType typescript call s:configure_lsp()
-endif
-
 if executable('docker-langserver')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'docker-langserver',
         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'docker-langserver --stdio']},
         \ 'whitelist': ['dockerfile'],
         \ })
-endif
-
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-      \ 'name': 'javascript support using typescript-language-server',
-      \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-      \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
-      \ 'whitelist': ['javascript', 'javascript.jsx']
-      \ })
 endif
 
 if executable('ccls')
@@ -464,9 +278,6 @@ nmap <silent> <leader>pd <Plug>(pydocstring)
 
 " 打开文件自动定位到最后编辑的位置
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
-for f in split(glob('~/.config/nvim/rc/ftplugin/*.vim'), '\n')
-    exe 'source' f
-endfor
 
 " VM
 let g:VM_maps = {}
