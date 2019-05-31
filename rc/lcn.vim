@@ -14,13 +14,12 @@ let g:LanguageClient_serverCommands = {
     \ 'cpp': ['ccls'],
     \ 'objc': ['ccls'],
     \ 'objcpp': ['ccls'],
-    \ 'css': ['css-languageserver', '--stdio'],
     \ 'html': ['html-languageserver', '--stdio'],
-    \ 'json': ['json-languageserver', '--stdio'],
+    \ 'json': ['vscode-json-languageserver', '--stdio'],
     \ 'python': ['pyls'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ 'sh': ['bash-language-server', 'start'],
-    \ 'yaml': ['yaml-language-server'],
+    \ 'yaml': ['yaml-language-server', '--stdio'],
     \ 'go': ['gopls']
     \ }
 
@@ -79,3 +78,36 @@ let g:LanguageClient_diagnosticsDisplay = {
     \ 'signTexthl': 'ALEInfoSign',
     \ },
     \ }
+
+imap <expr> <CR> (pumvisible() ? "\<C-Y>\<Plug>(expand_or_cr)" : "\<CR>")
+imap <expr> <Plug>(expand_or_cr) (cm#completed_is_snippet() ? "\<C-U>" : "\<CR>")
+let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
+inoremap <silent> <C-U> <C-R>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<CR>
+
+let settings = json_decode('
+            \ {
+            \   "yaml": {
+            \       "completion": true,
+            \       "hover": true,
+            \       "validate": true,
+            \       "schemas": {
+            \           "Kubernetes": "/*"
+            \           },
+            \       "format": {
+            \           "enable": true
+            \       }
+            \   },
+            \   "http": {
+            \       "proxyStrictSSL": true
+            \}
+            \}
+            \')
+
+augroup LanguageClient_config
+    autocmd!
+    autocmd User LanguageClientStarted call LanguageClient#Notify(
+                \ 'workspace/didChangeConfiguration', {'settings': settings})
+augroup END
+
+" Goto definition in a split
+call LanguageClient#textDocument_definition({'gotoCmd': 'split'})

@@ -47,8 +47,6 @@ call plug#begin('~/.vim/plugged')
     \ 'do': 'bash install.sh',
     \ }
 
-  Plug 'Shougo/vimproc.vim', { 'on': [], 'do' : 'make' }
-
   " ALE
   Plug 'w0rp/ale'
 
@@ -62,8 +60,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'sbdchd/neoformat'
   Plug 'Yggdroot/indentLine'
 
-  Plug 'iamcco/mathjax-support-for-mkdp'
-  Plug 'iamcco/markdown-preview.vim'
+  Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
   Plug 'Shougo/echodoc.vim'
 
@@ -96,11 +93,6 @@ endfor
 " ================================
 "    Plugins configuration
 " ===============================
-nmap <silent> <F5> <Plug>MarkdownPreview
-imap <silent> <F5> <Plug>MarkdownPreview
-nmap <silent> <F6> <Plug>StopMarkdownPreview
-imap <silent> <F6> <Plug>StopMarkdownPreview
-
 " Color theme
 let g:lightline = {}
 colorscheme PaperColor
@@ -153,4 +145,3 @@ function! HandleURL()
 endfunction
 
 nnoremap <leader>oc :call HandleURL()<CR>¬
-
