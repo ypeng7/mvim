@@ -83,6 +83,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/rainbow_parentheses.vim'
 
   Plug 'NLKNguyen/papercolor-theme'
+  Plug 'endel/vim-github-colorscheme'
 
 call plug#end()
 
@@ -95,7 +96,12 @@ endfor
 " ===============================
 " Color theme
 let g:lightline = {}
-colorscheme PaperColor
+if &diff
+    colorscheme github
+else
+    colorscheme PaperColor
+endif
+
 let g:lightline = { 'colorscheme': 'PaperColor' }
 if strftime('%H') >= 7 && strftime('%H') < 18
   set background=light
