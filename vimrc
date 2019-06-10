@@ -35,8 +35,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/neco-syntax' | Plug 'ncm2/ncm2-syntax'
   Plug 'Shougo/neoinclude.vim' | Plug 'ncm2/ncm2-neoinclude'
   Plug 'ncm2/ncm2-pyclang', { 'for': ['c', 'cpp'] }
+  Plug 'ncm2/ncm2-racer', { 'for': 'rust' }
+  Plug 'ncm2/ncm2-go', { 'for': 'go' }
   Plug 'ncm2/ncm2-html-subscope', { 'for': 'html' }
-  Plug 'ncm2/ncm2-jedi'
+  Plug 'ncm2/ncm2-jedi', {'for': 'python'}
   Plug 'ncm2/ncm2-markdown-subscope', { 'for': 'markdown' }
   Plug 'Shougo/neco-vim', { 'for': 'vim' } | Plug 'ncm2/ncm2-vim', { 'for': 'vim' }
   Plug 'ncm2/ncm2-ultisnips'
