@@ -9,7 +9,7 @@ let g:ale_linters = {
             \       'html': ['tidy'],
             \       'json': [],
             \       'markdown': ['languagetool'],
-            \       'python': ['pylint', 'flake8', 'mypy', 'pydocstyle'],
+            \       'python': ['autopep8', 'flake8', 'mypy', 'pydocstyle'],
             \       'rust': ['cargo'],
             \       'sh': ['shellcheck'],
             \       'text': ['languagetool'],
