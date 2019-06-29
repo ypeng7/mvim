@@ -24,10 +24,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'roxma/vim-hug-neovim-rpc'
 
   Plug 'ncm2/ncm2'
-  Plug 'ncm2/ncm2-tagprefix', { 'on': [] }
-  Plug 'ncm2/ncm2-gtags', { 'on': [] }
+  Plug 'ncm2/ncm2-tagprefix'
+  Plug 'ncm2/ncm2-gtags'
   Plug 'ncm2/ncm2-bufword'
-  Plug 'fgrsnau/ncm2-otherbuf', { 'branch': 'ncm2'}
+  Plug 'fgrsnau/ncm2-otherbuf'
   Plug 'ncm2/ncm2-path'
   Plug 'ncm2/ncm2-tagprefix'
   Plug 'filipekiss/ncm2-look.vim'

@@ -17,9 +17,9 @@ let g:ale_linters = {
             \       'go': ['gopls'],
             \}
 "查看上一个错误
-nnoremap <silent> <leader>lk :ALEPrevious<CR>
+nnoremap <silent> [a :ALEPrevious<CR>
 "查看下一个错误
-nnoremap <silent> <leader>lj :ALENext<CR>
+nnoremap <silent> ]a :ALENext<CR>
 "自定义error和warning图标
 let g:ale_sign_error = "\uf65b"
 let g:ale_sign_warning = "\uf421"
