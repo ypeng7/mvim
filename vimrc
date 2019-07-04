@@ -2,6 +2,7 @@ if &compatible
   set nocompatible
 endif
 
+" check if plug.vim exists, if not download it
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -23,7 +24,6 @@ call plug#begin('~/.vim/plugged')
 
   " ncm2
   Plug 'ncm2/ncm2'
-  Plug 'roxma/nvim-yarp'
   Plug 'ncm2/ncm2-bufword'
   Plug 'ncm2/ncm2-path'
   Plug 'ncm2/ncm2-ultisnips'
@@ -39,7 +39,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'ncm2/ncm2-markdown-subscope'
   Plug 'ncm2/ncm2-jedi'
   Plug 'yuki-ycino/ncm2-dictionary'
-  Plug 'fgrsnau/ncm-otherbuf'
+  " Plug 'fgrsnau/ncm-otherbuf'
   Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
 
   Plug 'Shougo/neco-vim'
@@ -68,21 +68,23 @@ call plug#begin('~/.vim/plugged')
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
+  " Utilitys
   Plug 'jiangmiao/auto-pairs'
   Plug 'machakann/vim-highlightedyank'
   Plug 'mg979/vim-visual-multi'
-  Plug 'Yggdroot/indentLine'
-
-  Plug 'vim-scripts/IndexedSearch'
-  Plug 'haya14busa/incsearch.vim'
-
-  Plug 'Shougo/echodoc.vim'
-
   Plug 'sheerun/vim-polyglot'
   Plug 'tpope/vim-fugitive'
   Plug 'scrooloose/nerdcommenter'
   Plug 'tpope/vim-surround'
   Plug 'heavenshell/vim-pydocstring'
+  Plug 'Yggdroot/indentLine'
+
+  " Search
+  Plug 'vim-scripts/IndexedSearch'
+  Plug 'haya14busa/incsearch.vim'
+
+  Plug 'Shougo/echodoc.vim'
+
 
   " Lightline
   Plug 'itchyny/lightline.vim'
@@ -113,7 +115,6 @@ call plug#end()
         colorscheme seoul256
     endif
 
-    let g:lightline = { 'colorscheme': 'PaperColor' }
     if strftime('%H') >= 7 && strftime('%H') < 10
     set background=light
     else
@@ -747,8 +748,4 @@ call plug#end()
 
     " Start interactive EasyAlign for a motion/text object (e.g. gaip)
     nmap ga <Plug>(EasyAlign)
-" }
-
-" git-messager {
-    nmap <Leader>gm <Plug>(git-messenger)
 " }
