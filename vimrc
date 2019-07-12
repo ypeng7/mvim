@@ -235,10 +235,11 @@ call plug#end()
 
 	let g:AutoPairsMapCR=0
 
-	inoremap <silent> <Plug>(MyCR) <CR><C-R>=AutoPairsReturn()<CR>
+	" inoremap <silent> <Plug>(MyCR) <CR><C-R>=AutoPairsReturn()<CR>
 
-	" example
-	imap <expr> <CR> (pumvisible() ? "\<C-Y>\<Plug>(MyCR)" : "\<Plug>(MyCR)")
+	" " example
+	" imap <expr> <CR> (pumvisible() ? "\<C-Y>\<Plug>(MyCR)" : "\<Plug>(MyCR)")
+    autocmd FileType python,go imap <silent> <CR> <CR><Plug>AutoPairsReturn
 " }
 
 " vim-devicons {
