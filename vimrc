@@ -39,7 +39,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'ncm2/ncm2-markdown-subscope'
   Plug 'ncm2/ncm2-jedi'
   Plug 'yuki-ycino/ncm2-dictionary'
-  " Plug 'fgrsnau/ncm-otherbuf'
   Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
 
   Plug 'Shougo/neco-vim'
@@ -82,7 +81,6 @@ call plug#begin('~/.vim/plugged')
   " Search
   Plug 'vim-scripts/IndexedSearch'
   Plug 'haya14busa/incsearch.vim'
-
   Plug 'Shougo/echodoc.vim'
 
 
@@ -93,11 +91,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'maximbaz/lightline-ale'
   Plug 'ryanoasis/vim-devicons'
 
-  Plug 'junegunn/goyo.vim'
-  Plug 'junegunn/limelight.vim'
   Plug 'junegunn/rainbow_parentheses.vim'
 
-  Plug 'NLKNguyen/papercolor-theme'
   Plug 'endel/vim-github-colorscheme'
   Plug 'junegunn/seoul256.vim'
 
@@ -130,7 +125,8 @@ call plug#end()
 
 " echodoc {
     let g:echodoc#enable_at_startup = 1
-    let g:echodoc#type = 'signature'
+    " let g:echodoc#type = 'signature'
+    let g:echodoc#type = 'virtual'
 " }
 
 
@@ -457,15 +453,15 @@ call plug#end()
     let g:ncm2_pyclang#library_path = '/usr/lib'
 
     " neosnippets
-    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-    smap <C-k> <Plug>(neosnippet_expand_or_jump)
-    xmap <C-k> <Plug>(neosnippet_expand_target)
+    imap <C-l> <Plug>(neosnippet_expand_or_jump)
+    smap <C-l> <Plug>(neosnippet_expand_or_jump)
+    xmap <C-l> <Plug>(neosnippet_expand_target)
     "smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
                 "\ '\<Plug>(neosnippet_expand_or_jump)' : '\<TAB>'
 
 
     " Expand snippet when you hit enter on an entry
-    inoremap <silent> <expr> <CR> ncm2_neosnippet#expand_or("\<CR>", 'n')
+    inoremap <silent> <expr> <C-l> ncm2_neosnippet#expand_or("\<CR>", 'n')
 " }
 
 " ncm2-look {
@@ -599,10 +595,6 @@ call plug#end()
     xnoremap >  >gv
 
     inoremap <c-c> <ESC>
-
-    nmap <leader>g :Goyo<CR>
-    nmap <leader>l :Limelight!!<CR>
-    xmap <leader>l :Limelight!!<CR>
 
 " }
 
