@@ -28,16 +28,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'ncm2/ncm2-path'
   Plug 'ncm2/ncm2-ultisnips'
   Plug 'filipekiss/ncm2-look.vim'
-  Plug 'ncm2/ncm2-tagprefix'
-  Plug 'ncm2/ncm2-gtags'
-  Plug 'ncm2/ncm2-tagprefix'
   Plug 'ncm2/ncm2-github'
-  Plug 'ncm2/ncm2-racer'
-  Plug 'ncm2/ncm2-jedi'
   Plug 'ncm2/ncm2-pyclang'
   Plug 'ncm2/ncm2-html-subscope'
   Plug 'ncm2/ncm2-markdown-subscope'
-  Plug 'ncm2/ncm2-jedi'
   Plug 'yuki-ycino/ncm2-dictionary'
   Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
 
@@ -125,8 +119,7 @@ call plug#end()
 
 " echodoc {
     let g:echodoc#enable_at_startup = 1
-    " let g:echodoc#type = 'signature'
-    let g:echodoc#type = 'virtual'
+    let g:echodoc#type = 'signature'
 " }
 
 
@@ -442,13 +435,12 @@ call plug#end()
     augroup END
 
     set completeopt=noinsert,menuone,noselect
-    imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<Plug>(ncm2_manual_trigger)\<C-n>"
-    inoremap <expr> <up> pumvisible() ? "\<C-y>\<up>" : "\<up>"
-    inoremap <expr> <down> pumvisible() ? "\<C-y>\<down>" : "\<down>"
-    inoremap <expr> <left> pumvisible() ? "\<C-y>\<left>" : "\<left>"
-    inoremap <expr> <right> pumvisible() ? "\<C-y>\<right>" : "\<right>"
-    imap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
-    imap <expr> <C-z> pumvisible() ? "\<C-e>" : "\<C-z>"
+    " imap <expr> <C-z> pumvisible() ? "\<C-e>" : "\<C-z>"
+    inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+    " Use <TAB> to select the popup menu:
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
     let g:ncm2_pyclang#library_path = '/usr/lib'
 
