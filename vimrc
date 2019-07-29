@@ -41,9 +41,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'ncm2/ncm2-syntax'
   Plug 'Shougo/neoinclude.vim'
   Plug 'ncm2/ncm2-neoinclude'
-  Plug 'Shougo/neosnippet-snippets'
-  Plug 'Shougo/neosnippet.vim'
-  Plug 'ncm2/ncm2-neosnippet'
 
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
@@ -716,6 +713,7 @@ call plug#end()
             \ 'initialization_options': {},
             \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
             \ })
+        autocmd FileType c,cpp call s:configure_lsp()
     endif
 
     if executable('rls')
@@ -725,6 +723,7 @@ call plug#end()
             \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
             \ 'whitelist': ['rust'],
             \ })
+        autocmd FileType rust call s:configure_lsp()
     endif
 
 " }
