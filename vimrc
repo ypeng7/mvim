@@ -71,6 +71,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'heavenshell/vim-pydocstring'
   Plug 'Yggdroot/indentLine'
+  Plug 'itchyny/calendar.vim'
+  Plug 'majutsushi/tagbar'
 
   " Search
   Plug 'vim-scripts/IndexedSearch'
@@ -435,7 +437,7 @@ call plug#end()
     augroup END
 
     set completeopt=noinsert,menuone,noselect
-    " imap <expr> <C-z> pumvisible() ? "\<C-e>" : "\<C-z>"
+    "limap <expr> <C-z> pumvisible() ? "\<C-e>" : "\<C-z>"
     inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
     " Use <TAB> to select the popup menu:
@@ -733,4 +735,67 @@ call plug#end()
 
     " Start interactive EasyAlign for a motion/text object (e.g. gaip)
     nmap ga <Plug>(EasyAlign)
+" }
+
+" calendar.vim {
+    nmap <silent><leader>rl :Calendar<CR>
+    function! Help_calendar() abort
+        echo 'View:'
+        echo '< left view'
+        echo '>: right view'
+        echo 'E: Open / close event window'
+        echo 'T: open / close the task window'
+        echo 'C: Change events / tasks'
+        echo 'D: Delete event / finish tasks'
+        echo 'L: clear all completed tasks'
+        echo 'U: the task identifier is not completed'
+        echo 'T: jump to the current date'
+        echo ': display help'
+        echo 'Q: exit'
+    endfunction
+" }
+
+" indentLine {
+    let g:indentline_enabled = 1
+    let g:indentline_char='┆'
+    let g:indentLine_fileTypeExclude = ['nerdtree', 'tagbar']
+    let g:indentLine_concealcursor = 'niv'
+    let g:indentLine_color_term = 96
+    let g:indentLine_color_gui= '#725972'
+    let g:indentLine_showFirstIndentLevel =1
+" }
+
+" Tagbar {
+
+    nmap <silent> <F4> :TagbarToggle<CR>
+
+    let g:tagbar_width=25
+    let g:tagbar_type_go = {
+        \ 'ctagstype' : 'go',
+        \ 'kinds' : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+        \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+        \ },
+        \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+        \ },
+        \ 'ctagsbin' : 'gotags',
+        \ 'ctagsargs' : '-sort -silent'
+        \ }
+
 " }
