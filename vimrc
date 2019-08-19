@@ -88,6 +88,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'endel/vim-github-colorscheme'
   Plug 'junegunn/seoul256.vim'
+  Plug 'kaicataldo/material.vim'
 
 call plug#end()
 
@@ -97,17 +98,8 @@ call plug#end()
 " ===============================
 " Color theme {
     let g:lightline = {}
-    if &diff
-        colorscheme github
-    else
-        colorscheme seoul256
-    endif
-
-    if strftime('%H') >= 7 && strftime('%H') < 10
-    set background=light
-    else
-    set background=dark
-    endif
+    colorscheme material
+    let g:material_theme_style = "darker"
 " }
 
 " For conceal markers {
@@ -553,8 +545,8 @@ call plug#end()
         " seoul256 (dark):
         "   Range:   233 (darkest) ~ 239 (lightest)
         "   Default: 237
-        let g:seoul256_background = 236
-        colo seoul256
+        " let g:seoul256_background = 236
+        " colo seoul256
 
         let $NVIM_TUI_ENABLE_TRUE_COLOR=1
         set termguicolors
