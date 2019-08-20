@@ -17,6 +17,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'terryma/vim-multiple-cursors'
     Plug 'itchyny/calendar.vim'
     Plug 'cinuor/vim-header'
+    Plug 'dracula/vim', { 'as': 'dracula' }
 
 call plug#end()
 
@@ -28,80 +29,26 @@ syntax enable
 " ===============================
 set termguicolors
 set t_Co=256
-colorscheme monokai-soda
+" colorscheme monokai-soda
+color dracula
+syntax on
 
-"more characters will be sent to the screen for redrawing
-set ttyfast
-"time waited for key press(es) to complete. It makes for a faster key response
-set ttimeout
-set ttimeoutlen=50
-
+set nocompatible
+set tabstop=4
+set signcolumn=yes
+set noshowmode
+set softtabstop=4
+set expandtab
+set shiftwidth=4
+set smarttab
+set colorcolumn=81
+set foldenable
+set foldmethod=syntax
+set foldcolumn=0
+setlocal foldlevel=1
+set foldlevelstart=99
 "make backspace behave properly in insert mode
 set backspace=indent,eol,start
-set noshowcmd
-"a better menu in command mode
-set wildmenu
-set wildmode=longest:full,full
-"hide buffers instead of closing them even if they contain unwritten changes
-set hidden
-set cursorline
-set colorcolumn=81
-
-set laststatus=2
-"modifiedflag, charcount, filepercent, filepath
-set statusline=%=%m\ %c\ %P\ %f\
-
-set splitbelow
-set splitright
-
-set autoindent
-
-set autowrite
-set autochdir
-set nobackup
-set noswapfile
-set nowritebackup
-set encoding=utf-8
-set fileencodings=utf-8,gbk,gb18030,gk2312,chinese,latin-1
-set history=1000
-set linespace=0
-set scrolljump=5
-set scrolloff=3
-set showmatch
-set completeopt+=preview
-set completeopt+=menuone
-set completeopt+=longest
-set completeopt+=noinsert
-set completeopt+=noselect
-set shortmess+=c
-set previewheight=5
-set noshowmode
-set cmdheight=2
-set noruler
-set clipboard=unnamed,unnamedplus
-set mouse=a
-set mousehide
-
-set hlsearch
-set ignorecase
-set incsearch
-set smartcase
-set showmatch
-
-set expandtab
-set shiftwidth=0
-set softtabstop=4
-set tabstop=4
-
-set wrap
-set wrapmargin=2
-set linebreak
-set breakindent
-set noshiftround
-set number
-set relativenumber
-" set spell spelllang=en_us
-set autoread
 
 " Highlight end of line whitespace.
 highlight WhitespaceEOL ctermbg=red guibg=red
