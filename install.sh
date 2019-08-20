@@ -9,6 +9,8 @@ npm install -g typescript typescript-language-server
 npm i -g bash-language-server
 
 cp -r ./UltiSnips ~/.vim/
+cp ./colors/* ~/.vim/
+cp ./coc-settings.json ~/.vim
 
 # brew tap caskroom/fonts
 # brew cask install font-fira-code
