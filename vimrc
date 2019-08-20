@@ -1,36 +1,22 @@
 call plug#begin('~/.vim/plugged')
 
-  Plug 'Yggdroot/LeaderF', {'branch': 'master', 'do': './install.sh'}
-  Plug 'Yggdroot/LeaderF-marks', {'branch': 'master'}
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    " snipet
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
 
-  Plug 'maralla/completor.vim'
-  Plug 'maralla/completor-neosnippet'
-  Plug 'kyouryuukunn/completor-necovim'
+    " statusline
+    Plug 'itchyny/lightline.vim'
 
-  Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
-
-  Plug 'jiangmiao/auto-pairs'
-  Plug 'machakann/vim-highlightedyank'
-  Plug 'mg979/vim-visual-multi'
-  Plug 'sbdchd/neoformat'
-  Plug 'Yggdroot/indentLine'
-
-  Plug 'iamcco/mathjax-support-for-mkdp'
-  Plug 'iamcco/markdown-preview.vim'
-
-  Plug 'Shougo/echodoc.vim'
-  Plug 'sheerun/vim-polyglot'
-  Plug 'tpope/vim-fugitive'
-  Plug 'scrooloose/nerdcommenter'
-  Plug 'tpope/vim-surround'
-  Plug 'heavenshell/vim-pydocstring'
-
-  Plug 'itchyny/lightline.vim'
-  Plug 'junegunn/goyo.vim'
-  Plug 'junegunn/limelight.vim'
-
-  Plug 'NLKNguyen/papercolor-theme'
+    " tools
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'scrooloose/nerdtree'
+    Plug 'junegunn/vim-easy-align'
+    Plug 'iamcco/mathjax-support-for-mkdp'
+    Plug 'iamcco/markdown-preview.vim'
+    Plug 'terryma/vim-multiple-cursors'
+    Plug 'itchyny/calendar.vim'
+    Plug 'cinuor/vim-header'
 
 call plug#end()
 
@@ -42,6 +28,7 @@ syntax enable
 " ===============================
 set termguicolors
 set t_Co=256
+colorscheme monokai-soda
 
 "more characters will be sent to the screen for redrawing
 set ttyfast
@@ -154,9 +141,6 @@ nnoremap <C-l> <C-w>l
 xnoremap <  <gv
 xnoremap >  >gv
 
-nmap <leader>gy :Goyo<CR>
-nmap ngy :Goyo!<CR>
-
 nmap <silent> <F5> <Plug>MarkdownPreview
 imap <silent> <F5> <Plug>MarkdownPreview
 nmap <silent> <F6> <Plug>StopMarkdownPreview
@@ -165,85 +149,56 @@ imap <silent> <F6> <Plug>StopMarkdownPreview
 " ================================
 "    Plugins configuration
 " ===============================
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
-
-let python_highlight_all = 1
-
-" completor
-let g:completor_gocode_binary = '$HOME/go/bin/gocode'
-let g:completor_complete_options = 'menuone,noselect,preview'
-let g:completor_go_guru_binary = 'guru'
-let g:completor_go_gofmt_binary = 'goimports'
-autocmd BufWritePost *.go :call completor#do('format')
-
-let g:completor_filetype_map = {}
-" Enable lsp for go by using gopls
-let g:completor_filetype_map.go = {'ft': 'lsp', 'cmd': 'gopls'}
-" Enable lsp for c by using clangd
-let g:completor_filetype_map.c = {'ft': 'lsp', 'cmd': 'clangd'}
-let g:completor_filetype_map.python = {'ft': 'lsp', 'cmd': 'pyls'}
-noremap <silent> <leader>gd :call completor#do('definition')<CR>
-noremap <silent> <leader>gc :call completor#do('doc')<CR>
-noremap <silent> <leader>gf :call completor#do('format')<CR>
-noremap <silent> <leader>gh :call completor#do('hover')<CR>
-
 " NERDCommenter
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
-" Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
 
-let g:NERDDefaultAlign = 'left'
-let g:NERDCustomDelimiters = {
-          \ 'javascript': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
-          \ 'less': { 'left': '/*', 'right': '*/' }
-      \ }
+" coc-word {
+    let g:coc_word_enabled = 0
 
-let g:NERDAltDelims_javascript = 1
-let g:NERDDefaultNesting = 1
+    function! CocWordTrigger()
+        if !exists("g:coc_word_enabled")
+            let g:coc_word_enabled = 0
+        endif
+        if g:coc_word_enabled==0
+            let g:coc_word_enabled = 1
+            call coc#config('coc.source.word.enable', 1)
+        else
+            let g:coc_word_enabled = 0
+            call coc#config('coc.source.word.enable', 0)
+        endif
+    endfunction
 
-" Color theme
-let g:lightline = {}
-colorscheme PaperColor
-let g:lightline = { 'colorscheme': 'PaperColor' }
-if strftime('%H') >= 7 && strftime('%H') < 16
-  set background=light
+    function! CocWordStatus()
+        return g:coc_word_enabled ? "10K" : ""
+    endfunction
 
-else
-  set background=dark
-endif
+    nnoremap <silent> <leader>w :<C-u>call CocWordTrigger()<CR>
+    " }
 
+" " lightline {
+    set laststatus=2
+    let g:lightline = {
+        \ 'colorscheme': 'one',
+        \ 'active': {
+        \   'left':[    ['mode', 'paste'],
+        \               ['readonly', 'filename', 'modified', 'cocstatus', 'cocword']],
+        \   'right':[   ['lineinfo'],
+        \               ['percent'],
+        \               [ 'fileformat', 'fileencoding', 'filetype']]
+        \ },
+        \ 'component_function': {
+        \   'cocstatus': 'coc#status',
+        \   'cocword': 'CocWordStatus'
+        \ }
+        \}
+" }
 
 " For conceal markers.
 if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
 
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
-
-
-" echodoc
-set noshowmode
-let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'signature'
-
-
-" neoformat
-let g:neoformat_enabled_python = ['autopep8', 'yapf', 'docformatter']
-
-" netrw
-let g:netrw_banner=0
-let g:netrw_winsize=20
-let g:netrw_liststyle=3
-let g:netrw_localrmdir='rm -r'
-
-"toggle netrw on the left side of the editor
-nnoremap <leader>n :Lexplore<CR>
 
 " Python Docstring
 " nmap <silent> <C-d> <Plug>(pydocstring)
@@ -256,28 +211,61 @@ for f in split(glob('~/.config/nvim/rc/ftplugin/*.vim'), '\n')
     exe 'source' f
 endfor
 
-" VM
-let g:VM_maps = {}
-let g:VM_maps['Find Under']         = '<C-d>'           " replace C-n
-let g:VM_maps['Find Subword Under'] = '<C-d>'           " replace visual C-n
-let g:VM_maps["Select l"]           = '<S-Right>'       " start selecting left
-let g:VM_maps["Select h"]           = '<S-Left>'        " start selecting right
+" NerdTree {
+    nnoremap <silent> <F2> :NERDTree<CR>
+    let NERDTreeWinSize=18
+" }
 
-let g:VM_clear_buffer_hl = 0
+" vim-header {
+ let g:header_auto_add_header = 0
+ let g:header_field_timestamp_format = '%Y-%m-%d %H:%M:%S'
+ let g:header_field_author = 'Fan Lizhou'
+ let g:header_field_author_email = 'cokie@foxmail.com'
+ nnoremap <silent> <F7> :AddHeader<CR>
+" }
 
-fun! VM_Start()
-  HighlightedyankOff
-endfun
-
-fun! VM_Exit()
-  HighlightedyankOn
-endfun
+" coc-snippets {
+    " Snippets
+    let g:coc_snippet_next = '<c-j>'
+    let g:coc_snippet_prev = '<c-k>'
 
 
-" IndentLine {{
-let g:indentLine_char = '¦'
-let g:indentLine_first_char = '┆'
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_setColors = 0
-" }}
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+    autocmd! InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" }
 
+" coc.nvim {
+    " Define some functions that not in coc.nvim
+    nnoremap <Plug>(coc-hover) :<C-u>call CocAction("doHover")<CR>
+
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gt <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+    nmap <silent> gh <Plug>(coc-hover)
+
+    " Remap keys for rename
+    nmap <silent> <leader>rn <Plug>(coc-rename)
+
+    " Remap keys for diagnostic
+    nmap <silent> <leader>nw <Plug>(coc-diagnostic-next)
+    nmap <silent> <leader>pw <Plug>(coc-diagnostic-prev)
+    nmap <silent> <leader>ne <Plug>(coc-diagnostic-next-error)
+    nmap <silent> <leader>pe <Plug>(coc-diagnostic-prev-error)
+
+    " Remap keys for format
+    nmap <silent> fm <Plug>(coc-format)
+    vmap <silent> fm <Plug>(coc-format-selected)
+
+    " Show all diagnostics
+    nnoremap <silent> <leader>ld  :<C-u>CocList diagnostics<cr>
+    " Manage extensions
+    nnoremap <silent> <leader>le  :<C-u>CocList extensions<cr>
+    " Show commands
+    nnoremap <silent> <leader>lc  :<C-u>CocList commands<cr>
+    " Find symbol of current document
+    nnoremap <silent> <leader>lo  :<C-u>CocList outline<cr>
+    " }
