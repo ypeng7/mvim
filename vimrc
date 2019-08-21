@@ -18,6 +18,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/calendar.vim'
     Plug 'cinuor/vim-header'
     Plug 'dracula/vim', { 'as': 'dracula' }
+    Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 
