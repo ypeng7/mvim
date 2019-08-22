@@ -18,7 +18,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/calendar.vim'
     Plug 'cinuor/vim-header'
     Plug 'dracula/vim', { 'as': 'dracula' }
-    Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 
@@ -34,6 +33,7 @@ set t_Co=256
 color dracula
 syntax on
 
+set number
 set nocompatible
 set tabstop=4
 set signcolumn=yes
@@ -50,6 +50,10 @@ setlocal foldlevel=1
 set foldlevelstart=99
 "make backspace behave properly in insert mode
 set backspace=indent,eol,start
+
+set hidden
+set nobackup noswapfile nowritebackup
+set wrapscan ignorecase smartcase incsearch hlsearch magic
 
 " Highlight end of line whitespace.
 highlight WhitespaceEOL ctermbg=red guibg=red
@@ -142,16 +146,6 @@ let g:NERDSpaceDelims = 1
         \}
 " }
 
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-
-
-" Python Docstring
-" nmap <silent> <C-d> <Plug>(pydocstring)
-nmap <silent> <leader>pd <Plug>(pydocstring)
-
 
 " 打开文件自动定位到最后编辑的位置
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
@@ -160,15 +154,15 @@ for f in split(glob('~/.config/nvim/rc/ftplugin/*.vim'), '\n')
 endfor
 
 " NerdTree {
-    nnoremap <silent> <F2> :NERDTree<CR>
+    nnoremap <silent> <leader>n :NERDTreeToggle<CR>
     let NERDTreeWinSize=18
 " }
 
 " vim-header {
  let g:header_auto_add_header = 0
  let g:header_field_timestamp_format = '%Y-%m-%d %H:%M:%S'
- let g:header_field_author = 'Fan Lizhou'
- let g:header_field_author_email = 'cokie@foxmail.com'
+ let g:header_field_author = 'Yue Peng'
+ let g:header_field_author_email = 'yuepaang@gmail.com'
  nnoremap <silent> <F7> :AddHeader<CR>
 " }
 
