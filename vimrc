@@ -18,6 +18,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/calendar.vim'
     Plug 'cinuor/vim-header'
     Plug 'dracula/vim', { 'as': 'dracula' }
+    Plug 'patstockwell/vim-monokai-tasty'
 
 call plug#end()
 
@@ -30,7 +31,9 @@ syntax enable
 set termguicolors
 set t_Co=256
 " colorscheme monokai-soda
-color dracula
+colorscheme vim-monokai-tasty
+let g:vim_monokai_italic = 1
+" color dracula
 syntax on
 
 set number
@@ -131,7 +134,7 @@ let g:NERDSpaceDelims = 1
 " " lightline {
     set laststatus=2
     let g:lightline = {
-        \ 'colorscheme': 'one',
+        \ 'colorscheme': 'monokai_tasty',
         \ 'active': {
         \   'left':[    ['mode', 'paste'],
         \               ['readonly', 'filename', 'modified', 'cocstatus', 'cocword']],
