@@ -1,3 +1,9 @@
+" File              : vimrc
+" Author            : Yue Peng <yuepaang@gmail.com>
+" Date              : 2019-08-26 14:35:40
+" Last Modified Date: 2019-08-26 14:35:40
+" Last Modified By  : Yue Peng <yuepaang@gmail.com>
+
 call plug#begin('~/.vim/plugged')
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -100,6 +106,9 @@ nmap <silent> <F5> <Plug>MarkdownPreview
 imap <silent> <F5> <Plug>MarkdownPreview
 nmap <silent> <F6> <Plug>StopMarkdownPreview
 imap <silent> <F6> <Plug>StopMarkdownPreview
+
+:nnoremap <F2> "=strftime("%Y-%m-%d %H:%M:%S")<CR>P
+:inoremap <F2> <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
 
 " ================================
 "    Plugins configuration
