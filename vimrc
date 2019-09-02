@@ -23,7 +23,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'terryma/vim-multiple-cursors'
     Plug 'itchyny/calendar.vim'
     Plug 'cinuor/vim-header'
-    Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'patstockwell/vim-monokai-tasty'
 
 call plug#end()
@@ -39,7 +38,6 @@ set t_Co=256
 " colorscheme monokai-soda
 colorscheme vim-monokai-tasty
 let g:vim_monokai_italic = 1
-" color dracula
 syntax on
 
 set number
