@@ -1,7 +1,7 @@
 " File              : vimrc
 " Author            : Yue Peng <yuepaang@gmail.com>
 " Date              : 2019-08-26 14:35:40
-" Last Modified Date: 2019-08-26 14:35:40
+" Last Modified Date: 2019-09-03 13:43:16
 " Last Modified By  : Yue Peng <yuepaang@gmail.com>
 
 call plug#begin('~/.vim/plugged')
@@ -16,7 +16,6 @@ call plug#begin('~/.vim/plugged')
 
     " tools
     Plug 'scrooloose/nerdcommenter'
-    Plug 'scrooloose/nerdtree'
     Plug 'junegunn/vim-easy-align'
     Plug 'iamcco/mathjax-support-for-mkdp'
     Plug 'iamcco/markdown-preview.vim'
@@ -162,11 +161,6 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "
 for f in split(glob('~/.config/nvim/rc/ftplugin/*.vim'), '\n')
     exe 'source' f
 endfor
-
-" NerdTree {
-    nnoremap <silent> <leader>n :NERDTreeToggle<CR>
-    let NERDTreeWinSize=18
-" }
 
 " vim-header {
  let g:header_auto_add_header = 0
