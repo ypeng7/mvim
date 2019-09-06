@@ -1,8 +1,7 @@
 " File              : vimrc
 " Author            : Yue Peng <yuepaang@gmail.com>
 " Date              : 2019-08-26 14:35:40
-" Last Modified Date: 2019-09-03 13:43:16
-" Last Modified By  : Yue Peng <yuepaang@gmail.com>
+" Last Modified Date: 2019-09-06 09:26:43 " Last Modified By  : Yue Peng <yuepaang@gmail.com>
 
 call plug#begin('~/.vim/plugged')
 
@@ -23,6 +22,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/calendar.vim'
     Plug 'cinuor/vim-header'
     Plug 'patstockwell/vim-monokai-tasty'
+    Plug 'junegunn/seoul256.vim'
 
 call plug#end()
 
@@ -34,9 +34,12 @@ syntax enable
 " ===============================
 set termguicolors
 set t_Co=256
+set background=dark
 " colorscheme monokai-soda
-colorscheme vim-monokai-tasty
-let g:vim_monokai_italic = 1
+" colorscheme vim-monokai-tasty
+" let g:vim_monokai_italic = 1
+colo seoul256
+let g:seoul256_background=235
 syntax on
 
 set number
