@@ -40,8 +40,6 @@
     "diagnostic.refreshOnInsertMode": true,
     "diagnostic.messageTarget": "float",
 
-    "coc.source.word.enable": false,
-
     "languageserver": {
         "python": {
             "command": "pyls",

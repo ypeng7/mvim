@@ -1,7 +1,7 @@
 " File              : vimrc
 " Author            : Yue Peng <yuepaang@gmail.com>
 " Date              : 2019-08-26 14:35:40
-" Last Modified Date: 2019-09-06 09:26:43 " Last Modified By  : Yue Peng <yuepaang@gmail.com>
+" Last Modified Date: 2019-10-24 14:07:26
 
 call plug#begin('~/.vim/plugged')
 
@@ -16,12 +16,9 @@ call plug#begin('~/.vim/plugged')
     " tools
     Plug 'scrooloose/nerdcommenter'
     Plug 'junegunn/vim-easy-align'
-    Plug 'iamcco/mathjax-support-for-mkdp'
-    Plug 'iamcco/markdown-preview.vim'
-    Plug 'terryma/vim-multiple-cursors'
+    Plug 'mg979/vim-visual-multi'
     Plug 'itchyny/calendar.vim'
     Plug 'cinuor/vim-header'
-    Plug 'patstockwell/vim-monokai-tasty'
     Plug 'junegunn/seoul256.vim'
 
 call plug#end()
@@ -35,9 +32,6 @@ syntax enable
 set termguicolors
 set t_Co=256
 set background=dark
-" colorscheme monokai-soda
-" colorscheme vim-monokai-tasty
-" let g:vim_monokai_italic = 1
 colo seoul256
 let g:seoul256_background=235
 syntax on
@@ -102,11 +96,6 @@ nnoremap <C-l> <C-w>l
 xnoremap <  <gv
 xnoremap >  >gv
 
-nmap <silent> <F5> <Plug>MarkdownPreview
-imap <silent> <F5> <Plug>MarkdownPreview
-nmap <silent> <F6> <Plug>StopMarkdownPreview
-imap <silent> <F6> <Plug>StopMarkdownPreview
-
 :nnoremap <F2> "=strftime("%Y-%m-%d %H:%M:%S")<CR>P
 :inoremap <F2> <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
 
@@ -117,33 +106,10 @@ imap <silent> <F6> <Plug>StopMarkdownPreview
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 
-" coc-word {
-    let g:coc_word_enabled = 0
-
-    function! CocWordTrigger()
-        if !exists("g:coc_word_enabled")
-            let g:coc_word_enabled = 0
-        endif
-        if g:coc_word_enabled==0
-            let g:coc_word_enabled = 1
-            call coc#config('coc.source.word.enable', 1)
-        else
-            let g:coc_word_enabled = 0
-            call coc#config('coc.source.word.enable', 0)
-        endif
-    endfunction
-
-    function! CocWordStatus()
-        return g:coc_word_enabled ? "10K" : ""
-    endfunction
-
-    nnoremap <silent> <leader>w :<C-u>call CocWordTrigger()<CR>
-    " }
-
 " " lightline {
     set laststatus=2
     let g:lightline = {
-        \ 'colorscheme': 'monokai_tasty',
+        \ 'colorscheme': 'seoul256',
         \ 'active': {
         \   'left':[    ['mode', 'paste'],
         \               ['readonly', 'filename', 'modified', 'cocstatus', 'cocword']],
@@ -200,10 +166,10 @@ endfor
     nmap <silent> <leader>rn <Plug>(coc-rename)
 
     " Remap keys for diagnostic
-    nmap <silent> <leader>nw <Plug>(coc-diagnostic-next)
-    nmap <silent> <leader>pw <Plug>(coc-diagnostic-prev)
-    nmap <silent> <leader>ne <Plug>(coc-diagnostic-next-error)
-    nmap <silent> <leader>pe <Plug>(coc-diagnostic-prev-error)
+    nmap <silent> ]w <Plug>(coc-diagnostic-next)
+    nmap <silent> [w <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
+    nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
 
     " Remap keys for format
     nmap <silent> fm <Plug>(coc-format)
