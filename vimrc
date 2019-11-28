@@ -1,7 +1,50 @@
 " File              : vimrc
 " Author            : Yue Peng <yuepaang@gmail.com>
-" Date              : 2019-08-26 14:35:40
-" Last Modified Date: 2019-10-24 14:07:26
+" Date              : 2019-10-24 14:36:30
+" Last Modified Date: 2019-10-24 14:52:08
+" Last Modified By  : Yue Peng <yuepaang@gmail.com>
+
+" Environment {{{
+  set encoding=utf-8 nobomb " utf-8 without BOM
+  scriptencoding utf-8
+  set fileformats=unix,mac,dos
+  set timeoutlen=5000
+  set ttimeout
+  set ttimeoutlen=10
+  set ttyfast
+  set mouse=a
+  set updatetime=500
+  syntax enable
+  filetype on
+  filetype plugin on
+  filetype indent on
+  set autoread
+  set hidden
+  set undofile
+  set undodir=~/.vim/tmp/undo
+  set undolevels=1000
+  set undoreload=10000
+  set nocompatible
+  set clipboard=unnamed
+  set binary
+  set noeol
+" }}}
+
+" Editing {{{
+  set autoindent
+  set shiftround
+  set backspace=indent,eol,start " allow backspace in insert mode
+  set whichwrap=b,~,<,>,[,],h,l
+  set nojoinspaces
+  set splitright
+  set splitbelow
+  set smarttab
+  set expandtab
+  set completeopt=menuone,noselect
+  set wildignore+=.DS_Store,Icon\?,*.dmg,*.git,*.pyc,*.o,*.obj,*.so,*.swp,*.zip
+  set wildmenu
+  set wildignorecase
+" }}}
 
 call plug#begin('~/.vim/plugged')
 
@@ -33,30 +76,30 @@ set termguicolors
 set t_Co=256
 set background=dark
 colo seoul256
-let g:seoul256_background=235
-syntax on
+let g:seoul256_background=234
+" syntax on
 
-set number
-set nocompatible
-set tabstop=4
-set signcolumn=yes
-set noshowmode
-set softtabstop=4
-set expandtab
-set shiftwidth=4
-set smarttab
-set colorcolumn=81
-set foldenable
-set foldmethod=syntax
-set foldcolumn=0
-setlocal foldlevel=1
-set foldlevelstart=99
-"make backspace behave properly in insert mode
-set backspace=indent,eol,start
+" set number
+" set nocompatible
+" set tabstop=4
+" set signcolumn=yes
+" set noshowmode
+" set softtabstop=4
+" set expandtab
+" set shiftwidth=4
+" set smarttab
+" set colorcolumn=81
+" set foldenable
+" set foldmethod=syntax
+" set foldcolumn=0
+" setlocal foldlevel=1
+" set foldlevelstart=99
+" "make backspace behave properly in insert mode
+" set backspace=indent,eol,start
 
-set hidden
-set nobackup noswapfile nowritebackup
-set wrapscan ignorecase smartcase incsearch hlsearch magic
+" set hidden
+" set nobackup noswapfile nowritebackup
+" set wrapscan ignorecase smartcase incsearch hlsearch magic
 
 " Highlight end of line whitespace.
 highlight WhitespaceEOL ctermbg=red guibg=red
