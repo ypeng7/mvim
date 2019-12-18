@@ -1,7 +1,7 @@
 " File              : vimrc
 " Author            : Yue Peng <yuepaang@gmail.com>
 " Date              : 2019-10-24 14:36:30
-" Last Modified Date: 2019-10-24 14:52:08
+" Last Modified Date: 2019-12-18 10:10:03
 " Last Modified By  : Yue Peng <yuepaang@gmail.com>
 
 " Environment {{{
@@ -19,7 +19,6 @@
   filetype plugin on
   filetype indent on
   set autoread
-  set hidden
   set undofile
   set undodir=~/.vim/tmp/undo
   set undolevels=1000
@@ -28,27 +27,41 @@
   set clipboard=unnamed
   set binary
   set noeol
+  set shortmess+=c
 " }}}
 
 " Editing {{{
-  set autoindent
-  set shiftround
-  set backspace=indent,eol,start " allow backspace in insert mode
-  set whichwrap=b,~,<,>,[,],h,l
-  set nojoinspaces
-  set splitright
-  set splitbelow
-  set smarttab
-  set expandtab
-  set completeopt=menuone,noselect
-  set wildignore+=.DS_Store,Icon\?,*.dmg,*.git,*.pyc,*.o,*.obj,*.so,*.swp,*.zip
-  set wildmenu
-  set wildignorecase
+    set autoindent
+    set shiftround
+    set backspace=indent,eol,start " allow backspace in insert mode
+    set whichwrap=b,~,<,>,[,],h,l
+    set nojoinspaces
+    set splitright
+    set splitbelow
+    set smarttab
+    set expandtab
+    set completeopt-=preview
+    set completeopt+=longest,menuone,noselect
+    set wildignore+=.DS_Store,Icon\?,*.dmg,*.git,*.pyc,*.o,*.obj,*.so,*.swp,*.zip
+    set wildmenu
+    set wildignorecase
 " }}}
 
 call plug#begin('~/.vim/plugged')
 
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+
+    Plug 'Shougo/echodoc.vim'
+
+    Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+    " (Optional) Multi-entry selection UI.
+    Plug 'junegunn/fzf'
     " snipet
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
@@ -81,25 +94,26 @@ let g:seoul256_background=234
 
 " set number
 " set nocompatible
-" set tabstop=4
-" set signcolumn=yes
-" set noshowmode
-" set softtabstop=4
-" set expandtab
-" set shiftwidth=4
-" set smarttab
-" set colorcolumn=81
+set tabstop=4
+set signcolumn=yes
+set noshowmode
+set softtabstop=4
+set expandtab
+set shiftwidth=4
+set smarttab
+set colorcolumn=80
+set cmdheight=2
 " set foldenable
 " set foldmethod=syntax
 " set foldcolumn=0
 " setlocal foldlevel=1
 " set foldlevelstart=99
 " "make backspace behave properly in insert mode
-" set backspace=indent,eol,start
+set backspace=indent,eol,start
 
-" set hidden
-" set nobackup noswapfile nowritebackup
-" set wrapscan ignorecase smartcase incsearch hlsearch magic
+set hidden
+set nobackup noswapfile nowritebackup
+set wrapscan ignorecase smartcase incsearch hlsearch magic
 
 " Highlight end of line whitespace.
 highlight WhitespaceEOL ctermbg=red guibg=red
@@ -155,14 +169,12 @@ let g:NERDSpaceDelims = 1
         \ 'colorscheme': 'seoul256',
         \ 'active': {
         \   'left':[    ['mode', 'paste'],
-        \               ['readonly', 'filename', 'modified', 'cocstatus', 'cocword']],
+        \               ['readonly', 'filename', 'modified']],
         \   'right':[   ['lineinfo'],
         \               ['percent'],
         \               [ 'fileformat', 'fileencoding', 'filetype']]
         \ },
         \ 'component_function': {
-        \   'cocstatus': 'coc#status',
-        \   'cocword': 'CocWordStatus'
         \ }
         \}
 " }
@@ -175,55 +187,52 @@ for f in split(glob('~/.config/nvim/rc/ftplugin/*.vim'), '\n')
 endfor
 
 " vim-header {
- let g:header_auto_add_header = 0
- let g:header_field_timestamp_format = '%Y-%m-%d %H:%M:%S'
- let g:header_field_author = 'Yue Peng'
- let g:header_field_author_email = 'yuepaang@gmail.com'
- nnoremap <silent> <F7> :AddHeader<CR>
+    let g:header_auto_add_header = 0
+    let g:header_field_timestamp_format = '%Y-%m-%d %H:%M:%S'
+    let g:header_field_author = 'Yue Peng'
+    let g:header_field_author_email = 'yuepaang@gmail.com'
+    nnoremap <silent> <F7> :AddHeader<CR>
 " }
 
-" coc-snippets {
-    " Snippets
-    let g:coc_snippet_next = '<c-j>'
-    let g:coc_snippet_prev = '<c-k>'
+" deoplete {
+    let g:deoplete#enable_at_startup = 1
+    call deoplete#custom#source('LanguageClient',
+            \ 'min_pattern_length',
+            \ 2)
 
-
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-    " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-    autocmd! InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " }
 
-" coc.nvim {
-    " Define some functions that not in coc.nvim
-    nnoremap <Plug>(coc-hover) :<C-u>call CocAction("doHover")<CR>
+" LanguageClient {
+    set hidden
 
-    " Remap keys for gotos
-    nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gt <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)
-    nmap <silent> gh <Plug>(coc-hover)
+    let g:LanguageClient_serverCommands = {
+        \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+        \ 'python': ['/usr/local/bin/pyls'],
+        \ 'c': ['/usr/local/bin/ccls'],
+        \ 'cpp': ['/usr/local/bin/ccls'],
+        \ 'objc': ['/usr/local/bin/ccls'],
+        \ }
 
-    " Remap keys for rename
-    nmap <silent> <leader>rn <Plug>(coc-rename)
+    function SetLSPShortcuts()
+        nnoremap <leader>gd :call LanguageClient#textDocument_definition()<CR>
+        nnoremap <leader>gr :call LanguageClient#textDocument_rename()<CR>
+        nnoremap <leader>gf :call LanguageClient#textDocument_formatting()<CR>
+        nnoremap <leader>gt :call LanguageClient#textDocument_typeDefinition()<CR>
+        nnoremap <leader>gx :call LanguageClient#textDocument_references()<CR>
+        nnoremap <leader>ga :call LanguageClient_workspace_applyEdit()<CR>
+        nnoremap <leader>gc :call LanguageClient#textDocument_completion()<CR>
+        nnoremap <leader>gh :call LanguageClient#textDocument_hover()<CR>
+        nnoremap <leader>gs :call LanguageClient_textDocument_documentSymbol()<CR>
+        nnoremap <leader>gm :call LanguageClient_contextMenu()<CR>
+    endfunction()
 
-    " Remap keys for diagnostic
-    nmap <silent> ]w <Plug>(coc-diagnostic-next)
-    nmap <silent> [w <Plug>(coc-diagnostic-prev)
-    nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
-    nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
+    augroup LSP
+        autocmd!
+        autocmd FileType cpp,c,rust,python,go call SetLSPShortcuts()
+    augroup END
+"
 
-    " Remap keys for format
-    nmap <silent> fm <Plug>(coc-format)
-    vmap <silent> fm <Plug>(coc-format-selected)
-
-    " Show all diagnostics
-    nnoremap <silent> <leader>ld  :<C-u>CocList diagnostics<cr>
-    " Manage extensions
-    nnoremap <silent> <leader>le  :<C-u>CocList extensions<cr>
-    " Show commands
-    nnoremap <silent> <leader>lc  :<C-u>CocList commands<cr>
-    " Find symbol of current document
-    nnoremap <silent> <leader>lo  :<C-u>CocList outline<cr>
-    " }
+"echodoc {
+    let g:echodoc#enable_at_startup = 1
+    let g:echodoc#type = 'signature'
+" }
