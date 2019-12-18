@@ -1,7 +1,7 @@
 " File              : vimrc
 " Author            : Yue Peng <yuepaang@gmail.com>
 " Date              : 2019-10-24 14:36:30
-" Last Modified Date: 2019-12-18 10:10:03
+" Last Modified Date: 2019-12-18 10:46:37
 " Last Modified By  : Yue Peng <yuepaang@gmail.com>
 
 " Environment {{{
@@ -76,6 +76,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/calendar.vim'
     Plug 'cinuor/vim-header'
     Plug 'junegunn/seoul256.vim'
+    Plug 'yorickpeterse/happy_hacking.vim'
 
 call plug#end()
 
@@ -88,8 +89,7 @@ syntax enable
 set termguicolors
 set t_Co=256
 set background=dark
-colo seoul256
-let g:seoul256_background=234
+color happy_hacking
 " syntax on
 
 " set number
