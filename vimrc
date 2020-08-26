@@ -1,33 +1,40 @@
 " File              : vimrc
 " Author            : Yue Peng <yuepaang@gmail.com>
 " Date              : 2019-10-24 14:36:30
-" Last Modified Date: 2019-12-18 10:46:37
+" Last Modified Date: 2020-08-26 15:16:04
 " Last Modified By  : Yue Peng <yuepaang@gmail.com>
 
 " Environment {{{
-  set encoding=utf-8 nobomb " utf-8 without BOM
-  scriptencoding utf-8
-  set fileformats=unix,mac,dos
-  set timeoutlen=5000
-  set ttimeout
-  set ttimeoutlen=10
-  set ttyfast
-  set mouse=a
-  set updatetime=500
-  syntax enable
-  filetype on
-  filetype plugin on
-  filetype indent on
-  set autoread
-  set undofile
-  set undodir=~/.vim/tmp/undo
-  set undolevels=1000
-  set undoreload=10000
-  set nocompatible
-  set clipboard=unnamed
-  set binary
-  set noeol
-  set shortmess+=c
+    set encoding=utf-8 nobomb " utf-8 without BOM
+    scriptencoding utf-8
+    set fileformats=unix,mac,dos
+    set termencoding=utf-8
+    set fileencodings=utf-8,gbk,utf-16le,cp1252,iso-8859-15,ucs-bom
+
+    set timeoutlen=500
+    set ttimeout
+    set ttimeoutlen=50
+    set ttyfast
+    set lazyredraw
+    set mouse=a
+    set updatetime=300
+
+    syntax enable
+    syntax on
+    filetype off
+    filetype plugin on
+    filetype indent on
+
+    set autoread
+    set undofile
+    set undodir=~/.vim/tmp/undo
+    set undolevels=1000
+    set undoreload=10000
+    set nocompatible
+    set clipboard=unnamed
+    set binary
+    set noeol
+    set shortmess+=c
 " }}}
 
 " Editing {{{
@@ -45,6 +52,21 @@
     set wildignore+=.DS_Store,Icon\?,*.dmg,*.git,*.pyc,*.o,*.obj,*.so,*.swp,*.zip
     set wildmenu
     set wildignorecase
+
+    let &ls = 2
+    let pumwidth = 40
+    let pumheight = 20
+
+    augroup CustomGroup
+        autocmd!
+        au InsertEnter * set norelativenumber
+        au InsertLeave * set relativenumber
+        au BufEnter * set formatoptions-=cross
+    augroup END
+
+    set selection=exclusive
+    set fdm=marker
+
 " }}}
 
 call plug#begin('~/.vim/plugged')
