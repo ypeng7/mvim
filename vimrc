@@ -8,6 +8,9 @@ set nocompatible
 
 set number
 
+syntax enable
+filetype plugin indent on
+
 " default updatetime 4000ms is not good for async update
 set updatetime=300
 
@@ -139,4 +142,5 @@ endif
 set termguicolors
 set background=dark
 set guifont=Monaco\ Nerd\ Font\ Mono:h11
-colorscheme monokai
+# colorscheme monokai
+colorscheme sonokai

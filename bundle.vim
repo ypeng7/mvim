@@ -50,6 +50,7 @@ Plug 'liuchengxu/space-vim-dark'
 Plug 'morhetz/gruvbox'
 Plug 'AlessandroYorba/Sierra'
 Plug 'joshdick/onedark.vim'
+Plug 'sainnhe/sonokai'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
@@ -71,3 +72,5 @@ Plug 'ap/vim-css-color'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
 Plug 'sheerun/vim-polyglot'
+
+Plug 'rust-lang/rust.vim'
