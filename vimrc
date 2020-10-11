@@ -1,12 +1,23 @@
 " File              : vimrc
 " Author            : Yue Peng <yuepaang@gmail.com>
 " Date              : 2020-10-07 22:07:30
-" Last Modified Date: 2020-10-07 22:11:37
+" Last Modified Date: 2020-10-11 22:11:37
 " Last Modified By  : Yue Peng <yuepaang@gmail.com>
 
 set nocompatible
 
 set number
+set relativenumber
+
+augroup CustomGroup
+    autocmd!
+    au InsertEnter * set norelativenumber
+    au InsertLeave * set relativenumber
+    au BufEnter * set formatoptions-=cross
+augroup END
+
+" Clear current-search highlighting by hitting <CR> in normal mode.
+nnoremap <silent> <CR> :nohlsearch<CR><CR>
 
 syntax enable
 filetype plugin indent on
@@ -40,7 +51,8 @@ set smartindent
 
 " set gcr=n:blinkon0
 
-let mapleader = ','
+" let mapleader = ','
+let mapleader = '\<SPACE>'
 
 " 文字过长时断行显示
 set wrap
@@ -70,6 +82,7 @@ set nowritebackup
 " 高亮搜索
 set hlsearch
 set incsearch
+set magic
 
 " no bell
 set noeb vb t_vb=
@@ -109,6 +122,22 @@ set go-=T
 " 回到上次编辑的地方
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
+set clipboard+=unnamed
+set noshowmode
+set laststatus=2
+set cmdheight=2
+
+set complete& completeopt+=menu,menuone,noinsert,noselect infercase noshowfulltag shortmess+=c
+
+" Don't lose selection when shifting sidewards
+xnoremap <  <gv
+xnoremap >  >gv
+
+" sets the cursor to a vertical line for insert mode, underline for replace mode, and block for normal mode
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
+
 call plug#begin('~/.vim/plugged')
 
   if filereadable(expand("~/mvim/bundle.vim"))
@@ -142,5 +171,6 @@ endif
 set termguicolors
 set background=dark
 set guifont=Monaco\ Nerd\ Font\ Mono:h11
-# colorscheme monokai
+" colorscheme monokai
 colorscheme sonokai
+

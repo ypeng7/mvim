@@ -10,6 +10,12 @@ let g:coc_global_extensions = [
    \'coc-marketplace',
    \'coc-snippets',
    \'coc-prettier',
+   \'coc-yaml',
+   \'coc-highlight',
+   \'coc-rust-analyzer',
+   \'coc-go',
+   \'coc-python',
+   \'coc-tabnine',
    \]
 " Give more space for displaying messages.
 set cmdheight=1
@@ -34,6 +40,12 @@ nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Remap keys for diagnostic
+nmap <silent> <leader>nw <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>pw <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>ne <Plug>(coc-diagnostic-next-error)
+nmap <silent> <leader>pe <Plug>(coc-diagnostic-prev-error)
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)

@@ -224,3 +224,8 @@ map <leader>u :source $MYVIMRC<cr>
 
 noremap <Tab> :bn<CR>
 noremap <S-Tab> :bp<CR>
+
+
+" Add datetime
+:nnoremap <leader>dt "=strftime("%Y-%m-%d %H:%M:%S")<CR>P
+:inoremap <leader>dt <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>

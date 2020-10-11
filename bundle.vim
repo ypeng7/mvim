@@ -64,7 +64,9 @@ Plug 'AndrewRadev/tagalong.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Snippets
 Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 
 Plug 'liuchengxu/vista.vim'
 
